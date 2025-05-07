@@ -76,28 +76,38 @@
             container.appendChild(div);
         });
 
-        async function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            let y = 10;
-            doc.setFontSize(12);
-            doc.text("Résumé du questionnaire PDQ-39", 10, y);
-            y += 10;
+ async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 10;
+    const marginLeft = 10;
+    const lineHeight = 7;
+    const pageHeight = doc.internal.pageSize.height;
 
-            questions.forEach((q, i) => {
-                const radios = document.getElementsByName(`q${i}`);
-                let selected = "Non répondu";
-                radios.forEach(r => { if (r.checked) selected = r.value; });
-                doc.text(`${i + 1}. ${q} - ${selected}`, 10, y);
-                y += 7;
-                if (y > 280) {
-                    doc.addPage();
-                    y = 10;
-                }
-            });
+    doc.setFontSize(12);
+    doc.text("Résumé du questionnaire PDQ-39", marginLeft, y);
+    y += 10;
 
-            doc.save("PDQ39_resultats.pdf");
+    questions.forEach((q, i) => {
+        const radios = document.getElementsByName(`q${i}`);
+        let selected = "Non répondu";
+        radios.forEach(r => { if (r.checked) selected = r.value; });
+        
+        const text = `${i + 1}. ${q} - ${selected}`;
+        const splitText = doc.splitTextToSize(text, 180); // 180 mm de largeur max
+
+        if (y + (splitText.length * lineHeight) > pageHeight - 10) {
+            doc.addPage();
+            y = 10;
         }
+
+        doc.text(splitText, marginLeft, y);
+        y += splitText.length * lineHeight;
+    });
+
+    doc.save("PDQ39_resultats.pdf");
+}
+
     </script>
 </body>
 </html>
