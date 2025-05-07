@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionnaire PDQ-39</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .question { margin-bottom: 15px; }
+        button { margin-top: 20px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Questionnaire PDQ-39</h1>
+    <form id="quizForm">
+
+        <!-- Questions -->
+        <div id="questions"></div>
+
+        <button type="button" onclick="generatePDF()">Générer le PDF</button>
+    </form>
+
+    <script>
+        const questions = [
+            "Avez-vous eu des difficultés dans la pratique de vos loisirs ?",
+            "Avez-vous eu des difficultés à vous occuper de votre maison (ménage, cuisine, bricolage…) ?",
+            "Avez-vous eu des difficultés à porter vos sacs de provision ?",
+            "Avez-vous eu des difficultés à monter les escaliers ?",
+            "Avez-vous eu des difficultés à sortir seul(e) de chez vous ?",
+            "Avez-vous eu des difficultés à marcher dans la rue ?",
+            "Avez-vous eu des difficultés à bouger dans votre lit ou à vous tourner ?",
+            "Avez-vous eu des douleurs physiques ?",
+            "Avez-vous eu des douleurs dues à des raideurs musculaires ou des crampes ?",
+            "Avez-vous eu des sensations de picotements ou d’engourdissement ?",
+            "Vous êtes-vous senti déprimé(e) ?",
+            "Vous êtes-vous senti nerveux(se) ou anxieux(se) ?",
+            "Avez-vous perdu confiance en vous ?",
+            "Avez-vous eu peur de tomber en public ?",
+            "Avez-vous évité de sortir par peur de tomber ?",
+            "Avez-vous eu des difficultés à parler aux autres ?",
+            "Avez-vous eu des difficultés à vous faire comprendre ?",
+            "Les gens ont-ils eu du mal à vous comprendre ?",
+            "Vous êtes-vous senti ignoré(e) par les autres ?",
+            "Avez-vous eu des difficultés à écrire ?",
+            "Avez-vous eu des difficultés à manger ?",
+            "Avez-vous eu des difficultés à couper votre nourriture ?",
+            "Avez-vous eu des difficultés à boire ?",
+            "Avez-vous eu des difficultés à avaler ?",
+            "Vous êtes-vous senti gêné(e) par votre apparence ?",
+            "Avez-vous été embarrassé(e) en public ?",
+            "Avez-vous eu des difficultés à avoir des rapports sexuels ?",
+            "Avez-vous eu des difficultés à faire les courses ?",
+            "Avez-vous eu des difficultés à utiliser les transports publics ?",
+            "Avez-vous eu des difficultés à accomplir vos tâches quotidiennes ?",
+            "Avez-vous eu des difficultés à gérer votre argent ?",
+            "Avez-vous eu des difficultés à utiliser le téléphone ?",
+            "Avez-vous eu des difficultés à lire ?",
+            "Avez-vous eu des difficultés à regarder la télévision ?",
+            "Avez-vous eu des difficultés à écouter la radio ?",
+            "Avez-vous eu des difficultés à participer à des activités sociales ?",
+            "Vous êtes-vous senti isolé(e) ?",
+            "Vous êtes-vous senti dépendant(e) des autres ?"
+        ];
+
+        const container = document.getElementById('questions');
+        questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.classList.add('question');
+            div.innerHTML = `<p>${i + 1}. ${q}</p>
+                <label><input type="radio" name="q${i}" value="Jamais"> Jamais</label>
+                <label><input type="radio" name="q${i}" value="Rarement"> Rarement</label>
+                <label><input type="radio" name="q${i}" value="Parfois"> Parfois</label>
+                <label><input type="radio" name="q${i}" value="Souvent"> Souvent</label>
+                <label><input type="radio" name="q${i}" value="Toujours"> Toujours</label>`;
+            container.appendChild(div);
+        });
+
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            let y = 10;
+            doc.setFontSize(12);
+            doc.text("Résumé du questionnaire PDQ-39", 10, y);
+            y += 10;
+
+            questions.forEach((q, i) => {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = "Non répondu";
+                radios.forEach(r => { if (r.checked) selected = r.value; });
+                doc.text(`${i + 1}. ${q} - ${selected}`, 10, y);
+                y += 7;
+                if (y > 280) {
+                    doc.addPage();
+                    y = 10;
+                }
+            });
+
+            doc.save("PDQ39_resultats.pdf");
+        }
+    </script>
+</body>
+</html>
