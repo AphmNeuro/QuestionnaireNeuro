@@ -76,17 +76,18 @@
             container.appendChild(div);
         });
 
- async function generatePDF() {
+async function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     let y = 10;
     const marginLeft = 10;
-    const lineHeight = 7;
+    const lineHeight = 8; // légèrement augmenté
     const pageHeight = doc.internal.pageSize.height;
+    const maxLineWidth = 170; // réduit pour laisser de la marge
 
     doc.setFontSize(12);
     doc.text("Résumé du questionnaire PDQ-39", marginLeft, y);
-    y += 10;
+    y += 12;
 
     questions.forEach((q, i) => {
         const radios = document.getElementsByName(`q${i}`);
@@ -94,9 +95,9 @@
         radios.forEach(r => { if (r.checked) selected = r.value; });
         
         const text = `${i + 1}. ${q} - ${selected}`;
-        const splitText = doc.splitTextToSize(text, 180); // 180 mm de largeur max
+        const splitText = doc.splitTextToSize(text, maxLineWidth);
 
-        if (y + (splitText.length * lineHeight) > pageHeight - 10) {
+        if (y + (splitText.length * lineHeight) > pageHeight - 15) { 
             doc.addPage();
             y = 10;
         }
@@ -107,6 +108,7 @@
 
     doc.save("PDQ39_resultats.pdf");
 }
+
 
     </script>
 </body>
