@@ -81,9 +81,9 @@ async function generatePDF() {
     const doc = new jsPDF();
     let y = 10;
     const marginLeft = 10;
-    const lineHeight = 8; // légèrement augmenté
+    const lineHeight = 8;
     const pageHeight = doc.internal.pageSize.height;
-    const maxLineWidth = 130; // réduit pour laisser de la marge
+    const maxLineWidth = 170;
 
     doc.setFontSize(12);
     doc.text("Résumé du questionnaire PDQ-39", marginLeft, y);
@@ -93,21 +93,25 @@ async function generatePDF() {
         const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
-        
-        const text = `${i + 1}. ${q} - ${selected}`;
-        const splitText = doc.splitTextToSize(text, maxLineWidth);
 
-        if (y + (splitText.length * lineHeight) > pageHeight - 15) { 
+        const splitQuestion = doc.splitTextToSize(`${i + 1}. ${q}`, maxLineWidth);
+        const splitAnswer = doc.splitTextToSize(`Réponse : ${selected}`, maxLineWidth);
+
+        if (y + ((splitQuestion.length + splitAnswer.length) * lineHeight) > pageHeight - 15) {
             doc.addPage();
             y = 10;
         }
 
-        doc.text(splitText, marginLeft, y);
-        y += splitText.length * lineHeight;
+        doc.text(splitQuestion, marginLeft, y);
+        y += splitQuestion.length * lineHeight;
+
+        doc.text(splitAnswer, marginLeft, y);
+        y += splitAnswer.length * lineHeight + 2; // +2 pour espacer entre questions
     });
 
     doc.save("PDQ39_resultats.pdf");
 }
+
 
 
     </script>
