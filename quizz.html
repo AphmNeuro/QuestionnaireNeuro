@@ -83,7 +83,7 @@ async function generatePDF() {
     const marginLeft = 10;
     const lineHeight = 8; // légèrement augmenté
     const pageHeight = doc.internal.pageSize.height;
-    const maxLineWidth = 170; // réduit pour laisser de la marge
+    const maxLineWidth = 130; // réduit pour laisser de la marge
 
     doc.setFontSize(12);
     doc.text("Résumé du questionnaire PDQ-39", marginLeft, y);
