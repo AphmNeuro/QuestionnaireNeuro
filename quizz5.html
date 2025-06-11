@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Échelle d'Apathie F-DAS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: #54A9AE;
+      text-align: center;
+      color: #2c3e50;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .instruction {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      font-size: 16px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    .question {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 25px 30px;
+      margin: 30px auto;
+      max-width: 900px;
+      text-align: left;
+      transition: transform 0.2s ease;
+    }
+    .question:hover {
+      transform: scale(1.01);
+    }
+    .question p {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    label {
+      display: inline-block;
+      margin-right: 20px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    input[type="radio"] {
+      margin-right: 6px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Échelle d'Apathie F-DAS</h1>
+  <div class="instruction">
+    <p>Veuillez lire attentivement chacune des affirmations suivantes. Pour chaque affirmation, sélectionnez la réponse qui correspond le mieux à ce que vous avez ressenti, fait ou pensé durant le dernier mois.</p>
+    <p>Choisissez parmi :</p>
+    <ul>
+      <li><strong>0</strong> — Presque jamais</li>
+      <li><strong>1</strong> — Parfois</li>
+      <li><strong>2</strong> — Souvent</li>
+      <li><strong>3</strong> — Presque toujours</li>
+    </ul>
+    <p>Merci de répondre à chaque énoncé.</p>
+  </div>
+  <form id="fdasForm">
+    <div id="questions"></div>
+    <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+  </form>
+
+  <script>
+    const items = [
+      "J'ai besoin d’encouragements pour débuter une activité.",
+      "Je suis à l’initiative des contacts avec mes ami(e)s.",
+      "J'exprime mes émotions.",
+      "Je pense à de nouvelles choses à faire pendant ma journée.",
+      "Je me sens concerné(e) par ce que les membres de ma famille ressentent.",
+      "Il m’arrive de regarder dans le vide.",
+      "Avant de commencer quelque chose je réfléchis à ce que les autres pourraient ressentir à propos de cela.",
+      "Je prévois mes activités de la journée par avance.",
+      "Je me sens mal quand je reçois de mauvaises nouvelles.",
+      "Je suis capable de me concentrer sur une tâche jusqu'à ce qu'elle soit terminée.",
+      "Je manque de motivation dans ce que je fais.",
+      "J’ai du mal à comprendre ce que les autres ressentent.",
+      "Je me fixe des objectifs.",
+      "J'essaie de nouvelles choses.",
+      "Ce que mon comportement induit comme émotion chez les autres m’indiffère.",
+      "J’agis en fonction de ce que j’ai pensé durant la journée.",
+      "Quand je suis face à une tâche compliquée, j’ai du mal à organiser ce que j’ai à faire.",
+      "Je sais me trouver des occupations.",
+      "J'éprouve des difficultés lorsque je dois faire plusieurs choses à la fois.",
+      "Je suis facilement ému(e) en regardant quelque chose de joyeux ou triste à la télévision.",
+      "Je trouve difficile de rester concentré(e).",
+      "Je suis plutôt spontané(e).",
+      "Je suis facilement distrait(e).",
+      "Ce qui se passe autour de moi me laisse indifférent(e)."
+    ];
+
+    const container = document.getElementById("questions");
+    items.forEach((text, index) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<p>${index + 1}. ${text}</p>` +
+        ["0", "1", "2", "3"].map(val => `
+          <label><input type="radio" name="q${index}" value="${val}"> ${val}</label>`
+        ).join("");
+      container.appendChild(div);
+    });
+
+    function generateCSV() {
+      let csvContent = "Numéro;Énoncé;Réponse\n";
+      items.forEach((text, index) => {
+        const radios = document.getElementsByName(`q${index}`);
+        let selected = "Non répondu";
+        radios.forEach(r => { if (r.checked) selected = r.value; });
+        csvContent += `${index + 1};"${text}";"${selected}"\n`;
+      });
+
+      const BOM = "\uFEFF";
+      const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "FDAS_resultats.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
