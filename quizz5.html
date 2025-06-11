@@ -88,6 +88,13 @@
   </form>
 
   <script>
+    const reponses = [
+      "0 — Presque jamais",
+      "1 — Parfois",
+      "2 — Souvent",
+      "3 — Presque toujours"
+    ];
+
     const items = [
       "J'ai besoin d’encouragements pour débuter une activité.",
       "Je suis à l’initiative des contacts avec mes ami(e)s.",
@@ -120,8 +127,8 @@
       const div = document.createElement("div");
       div.classList.add("question");
       div.innerHTML = `<p>${index + 1}. ${text}</p>` +
-        ["0", "1", "2", "3"].map(val => `
-          <label><input type="radio" name="q${index}" value="${val}"> ${val}</label>`
+        reponses.map((rep, val) => `
+          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`
         ).join("");
       container.appendChild(div);
     });
@@ -131,7 +138,7 @@
       items.forEach((text, index) => {
         const radios = document.getElementsByName(`q${index}`);
         let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.value; });
+        radios.forEach(r => { if (r.checked) selected = r.nextSibling.textContent.trim(); });
         csvContent += `${index + 1};"${text}";"${selected}"\n`;
       });
 
