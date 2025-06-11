@@ -133,24 +133,31 @@
       container.appendChild(div);
     });
 
-    function generateCSV() {
-      let csvContent = "Numéro;Énoncé;Réponse\n";
-      items.forEach((text, index) => {
-        const radios = document.getElementsByName(`q${index}`);
-        let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.nextSibling.textContent.trim(); });
-        csvContent += `${index + 1};"${text}";"${selected}"\n`;
-      });
+ function generateCSV() {
+    let csvContent = "Numéro;Question;Réponse\n";
 
-      const BOM = "\uFEFF";
-      const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "FDAS_resultats.csv";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    questions.forEach((q, i) => {
+        const radios = document.getElementsByName(`q${i}`);
+        let selected = "Non répondu";
+        radios.forEach(r => { if (r.checked) selected = r.value; });
+
+        const questionEscaped = q.replace(/"/g, '""');
+        const responseEscaped = selected.replace(/"/g, '""');
+
+        csvContent += `"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
+    });
+
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "FDAS_resultats.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
   </script>
 </body>
 </html>
+
+
