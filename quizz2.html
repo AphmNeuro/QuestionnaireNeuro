@@ -4,16 +4,75 @@
 <meta charset="UTF-8">
 <title>Questionnaire PDQ-39</title>
 <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { text-align: center; }
-    .question { margin-bottom: 15px; }
-    button { margin-top: 20px; padding: 10px 20px; }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+        background-color: #54A9AE;
+        text-align: center;
+        color: #2c3e50;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 32px;
+        color: #2c3e50;
+    }
+
+    .question {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 25px 30px;
+        margin: 30px auto;
+        max-width: 900px;
+        text-align: left;
+        transition: transform 0.2s ease;
+    }
+
+    .question:hover {
+        transform: scale(1.01);
+    }
+
+    .question p {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    label {
+        display: inline-block;
+        margin-right: 15px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    input[type="radio"] {
+        margin-right: 6px;
+    }
+
+    button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 30px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
 </style>
 </head>
 <body>
 <h1>Questionnaire PDQ-39</h1>
 <form id="quizForm">
-    <!-- Questions -->
     <div id="questions"></div>
     <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
 </form>
@@ -87,7 +146,6 @@ function generateCSV() {
         csvContent += `"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
     });
 
-    // Ajoute le BOM pour forcer Excel à utiliser l’UTF-8
     const BOM = "\uFEFF";
     const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
