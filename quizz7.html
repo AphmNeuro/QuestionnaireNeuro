@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire Données Cliniques</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: #54A9AE;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .radio-group label {
+      display: inline-block;
+      margin-right: 20px;
+      font-weight: normal;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Formulaire Données Cliniques</h1>
+  <form id="clinicalForm">
+    <div class="form-group">
+      <label for="age">Âge</label>
+      <input type="number" id="age" name="age">
+    </div>
+
+    <div class="form-group">
+      <label>Sexe</label>
+      <div class="radio-group">
+        <label><input type="radio" name="sexe" value="H"> Homme</label>
+        <label><input type="radio" name="sexe" value="F"> Femme</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="anneeDx">Année du diagnostic</label>
+      <input type="number" id="anneeDx" name="anneeDx">
+    </div>
+
+    <div class="form-group">
+      <label>Premier côté atteint (hémicorps)</label>
+      <div class="radio-group">
+        <label><input type="radio" name="hemicorps" value="D"> Droit</label>
+        <label><input type="radio" name="hemicorps" value="G"> Gauche</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Forme tremblante</label>
+      <div class="radio-group">
+        <label><input type="radio" name="tremblante" value="Oui"> Oui</label>
+        <label><input type="radio" name="tremblante" value="Non"> Non</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="hyscore">Score Hoehn & Yahr</label>
+      <input type="text" id="hyscore" name="hyscore">
+    </div>
+
+    <div class="form-group">
+      <label for="debutTtt">Date début de traitement dopaminergique</label>
+      <input type="date" id="debutTtt" name="debutTtt">
+    </div>
+
+    <div class="form-group">
+      <label for="ttt">Traitement dopaminergique actuel (ctrl + clic pour multiple)</label>
+      <select multiple id="ttt" name="ttt">
+        <option value="Aucun">Aucun</option>
+        <option value="L-Dopa">L-Dopa (ex. Modopar)</option>
+        <option value="Agoniste">Agoniste (ex. Sifrol)</option>
+        <option value="Association">Association de plusieurs</option>
+        <option value="Pompe Apomorphine">Pompe Apomorphine</option>
+        <option value="Pompe Entacapone">Pompe Entacapone</option>
+        <option value="Stimulation">Stimulation cérébrale profonde</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Autre traitement en cours</label>
+      <div class="radio-group">
+        <label>Antidépresseur :
+          <input type="radio" name="antidepresseur" value="Oui"> Oui
+          <input type="radio" name="antidepresseur" value="Non"> Non
+        </label>
+        <br>
+        <label>Anxiolytique :
+          <input type="radio" name="anxiolytique" value="Oui"> Oui
+          <input type="radio" name="anxiolytique" value="Non"> Non
+        </label>
+      </div>
+    </div>
+
+    <button type="button" onclick="exportCSV()">Télécharger en CSV</button>
+  </form>
+
+  <script>
+    function exportCSV() {
+      const fields = [
+        "age", "sexe", "anneeDx", "hemicorps", "tremblante", "hyscore",
+        "debutTtt", "ttt", "antidepresseur", "anxiolytique"
+      ];
+
+      let values = {};
+
+      fields.forEach(field => {
+        const input = document.querySelector(`[name="${field}"]`);
+        if (input && (input.type === 'text' || input.type === 'number' || input.type === 'date')) {
+          values[field] = input.value;
+        } else {
+          const radios = document.querySelectorAll(`[name="${field}"]`);
+          if (radios.length > 0) {
+            radios.forEach(r => { if (r.checked) values[field] = r.value; });
+          } else if (document.getElementById(field) && document.getElementById(field).type === "select-multiple") {
+            const selected = Array.from(document.getElementById(field).selectedOptions).map(o => o.value);
+            values[field] = selected.join(";");
+          }
+        }
+      });
+
+      let csv = "Champ;Valeur\n";
+      for (let key in values) {
+        csv += `"${key}";"${values[key] || ''}"\n`;
+      }
+
+      const BOM = "\uFEFF";
+      const blob = new Blob([BOM + csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Donnees_cliniques.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
