@@ -12,14 +12,28 @@
       text-align: center;
       color: #2c3e50;
     }
-
     h1 {
       text-align: center;
       margin-bottom: 40px;
       font-size: 32px;
       color: #2c3e50;
     }
-
+    .identifiant {
+      background: #e0e0e0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      text-align: left;
+      max-width: 900px;
+      margin: 0 auto 30px;
+    }
+    .identifiant label {
+      font-weight: bold;
+    }
+    .identifiant input {
+      width: 300px;
+      padding: 8px;
+      margin-top: 5px;
+    }
     .question {
       background: #ffffff;
       border-radius: 16px;
@@ -30,28 +44,23 @@
       text-align: left;
       transition: transform 0.2s ease;
     }
-
     .question:hover {
       transform: scale(1.01);
     }
-
     .question p {
       font-weight: bold;
       margin-bottom: 10px;
       font-size: 16px;
     }
-
     label {
       display: block;
       margin: 5px 0;
       cursor: pointer;
       font-size: 15px;
     }
-
     input[type="radio"] {
       margin-right: 6px;
     }
-
     button {
       background-color: #3498db;
       color: white;
@@ -63,7 +72,6 @@
       margin-top: 30px;
       transition: background-color 0.3s ease;
     }
-
     button:hover {
       background-color: #2980b9;
     }
@@ -71,7 +79,14 @@
 </head>
 <body>
   <h1>Questionnaire BDI-II</h1>
+
+  <div class="identifiant">
+    <label for="identifiant">Identifiant Patient :</label>
+    <input type="text" id="identifiant" name="identifiant" placeholder="Ex : ABC456">
+  </div>
+
   <p>Ce questionnaire comporte 21 groupes d'énoncés. Veuillez lire avec soin chacun de ces groupes puis, dans chaque groupe, choisissez l'énoncé qui décrit le mieux comment vous vous êtes senti(e) au cours des deux dernières semaines, incluant aujourd'hui.</p>
+
   <form id="bdiForm">
     <div id="questions"></div>
     <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
@@ -94,9 +109,9 @@
       ["Indécision", ["Je prends des décisions toujours aussi bien qu'avant.", "Il m'est plus difficile que d'habitude de prendre des décisions.", "J'ai beaucoup plus de mal qu'avant à prendre des décisions.", "J'ai du mal à prendre n'importe quelle décision."]],
       ["Dévalorisation", ["Je pense être quelqu'un de valable.", "Je ne crois pas avoir autant de valeur ni être aussi utile qu'avant.", "Je me sens moins valable que les autres.", "Je sens que je ne vaux absolument rien."]],
       ["Perte d'énergie", ["J'ai toujours autant d'énergie qu'avant.", "J'ai moins d'énergie qu'avant.", "Je n'ai pas assez d'énergie pour pouvoir faire grand-chose.", "J'ai trop peu d'énergie pour faire quoi que ce soit."]],
-      ["Modifications dans les habitudes de sommeil", ["Mes habitudes de sommeil n'ont pas changé.", "Je dors un peu plus ou moins que d'habitude.", "Je dors beaucoup plus ou beaucoup moins que d'habitude.", "Je dors presque toute la journée ou je me réveille très tôt et ne peux plus dormir."]],
+      ["Modifications dans les habitudes de sommeil", ["Mes habitudes de sommeil n'ont pas changé.", "Je dors un peu plus que d'habitude / Je dors un peu moins que d'habitude.", "Je dors beaucoup plus que d'habitude / Je dors beaucoup moins que d'habitude.", "Je dors presque toute la journée / Je me réveille une ou deux heures plus tôt et je suis incapable de me rendormir."]],
       ["Irritabilité", ["Je ne suis pas plus irritable que d'habitude.", "Je suis plus irritable que d'habitude.", "Je suis beaucoup plus irritable que d'habitude.", "Je suis constamment irritable."]],
-      ["Modifications de l'appétit", ["Mon appétit n'a pas changé.", "J'ai un peu plus ou un peu moins d'appétit que d'habitude.", "J'ai beaucoup plus ou beaucoup moins d'appétit que d'habitude.", "Je n'ai pas d'appétit du tout ou je mange sans arrêt."]],
+      ["Modifications de l'appétit", ["Mon appétit n'a pas changé.", "J'ai un peu moins d'appétit que d'habitude / J'ai un peu plus d'appétit que d'habitude.", "J'ai beaucoup moins d'appétit que d'habitude / J'ai beaucoup plus d'appétit que d'habitude.", "Je n'ai pas d'appétit du tout / J'ai constamment envie de manger."]],
       ["Difficulté à se concentrer", ["Je parviens à me concentrer toujours aussi bien qu'avant.", "Je ne parviens pas à me concentrer aussi bien que d'habitude.", "J'ai du mal à me concentrer longtemps sur quoi que ce soit.", "Je me trouve incapable de me concentrer sur quoi que ce soit."]],
       ["Fatigue", ["Je ne suis pas plus fatigué(e) que d'habitude.", "Je me fatigue plus facilement que d'habitude.", "Je suis trop fatigué(e) pour faire un grand nombre de choses.", "Je suis trop fatigué(e) pour faire la plupart des choses que je faisais avant."]],
       ["Perte d'intérêt pour le sexe", ["Je n'ai pas noté de changement dans mon intérêt pour le sexe.", "Le sexe m'intéresse moins qu'avant.", "Le sexe m'intéresse beaucoup moins maintenant.", "J'ai perdu tout intérêt pour le sexe."]]
@@ -112,19 +127,25 @@
     });
 
     function generateCSV() {
-      let csvContent = "Numéro;Question;Réponse\n";
+      const identifiant = document.getElementById("identifiant").value.trim();
+      if (!identifiant) {
+        alert("Veuillez renseigner l'identifiant patient avant de télécharger les résultats.");
+        return;
+      }
+
+      let csvContent = "Identifiant;Numéro;Question;Réponse\n";
       questions.forEach(([title, options], i) => {
         const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.nextSibling.textContent.trim(); });
-        csvContent += `${i + 1};"${title}";"${selected}"\n`;
+        radios.forEach(r => { if (r.checked) selected = r.value; });
+        csvContent += `"${identifiant}";"${i + 1}";"${title}";"${selected}"\n`;
       });
 
       const BOM = "\uFEFF";
       const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "BDI-II_resultats.csv";
+      link.download = `${identifiant}_BDI-II_resultats.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
