@@ -24,6 +24,21 @@
       max-width: 900px;
       text-align: left;
     }
+    .identifier-section {
+      background: #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 0 auto 30px;
+      max-width: 900px;
+      text-align: left;
+      position: relative;
+    }
+    .identifier-section input {
+      max-width: 300px;
+    }
+    .identifier-section label {
+      font-weight: bold;
+    }
     label {
       display: block;
       margin: 10px 0 5px;
@@ -53,11 +68,21 @@
     button:hover {
       background-color: #2980b9;
     }
+    .top-left-id {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+    }
   </style>
 </head>
 <body>
   <h1>Formulaire Données Cliniques - Maladie de Parkinson</h1>
   <form id="parkinsonForm">
+    <div class="identifier-section">
+      <label for="identifiant">Identifiant Patient :</label>
+      <input type="text" id="identifiant" name="identifiant" placeholder="Ex : ABC456" required>
+    </div>
+
     <div class="form-section">
       <label for="age">Âge :</label>
       <input type="number" id="age" name="age" required>
@@ -116,16 +141,22 @@
   <script>
     function generateCSV() {
       const form = document.getElementById("parkinsonForm");
+      const identifiant = form.identifiant.value.trim();
+      if (!identifiant) {
+        alert("Veuillez renseigner l'identifiant patient.");
+        return;
+      }
       const data = {
-        age: form.age.value,
-        sexe: form.sexe.value,
-        annee_diag: form.annee_diag.value,
-        hemicorps: form.hemicorps.value,
-        forme_tremblante: form.forme_tremblante.value,
-        score_hy: form.score_hy.value,
-        date_traitement: form.date_traitement.value,
-        traitements: Array.from(form.querySelectorAll('input[name="traitements"]:checked')).map(el => el.value).join(", "),
-        autres_traitements: Array.from(form.querySelectorAll('input[name="autres_traitements"]:checked')).map(el => el.value).join(", ")
+        Identifiant: identifiant,
+        Age: form.age.value,
+        Sexe: form.sexe.value,
+        Annee_diagnostic: form.annee_diag.value,
+        Premier_cote: form.hemicorps.value,
+        Forme_tremblante: form.forme_tremblante.value,
+        Score_HY: form.score_hy.value,
+        Date_traitement: form.date_traitement.value,
+        Traitements: Array.from(form.querySelectorAll('input[name="traitements"]:checked')).map(el => el.value).join(", "),
+        Autres_traitements: Array.from(form.querySelectorAll('input[name="autres_traitements"]:checked')).map(el => el.value).join(", ")
       };
 
       let csv = "Variable;Valeur\n";
@@ -137,7 +168,7 @@
       const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Formulaire_Clinique_Parkinson.csv";
+      link.download = `${identifiant}_Formulaire_Clinique_Parkinson.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -145,3 +176,4 @@
   </script>
 </body>
 </html>
+
