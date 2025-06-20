@@ -28,6 +28,14 @@
     .form-block:hover {
       transform: scale(1.01);
     }
+    .form-block.id-block {
+      background: #e0e0e0;
+      box-shadow: none;
+      transition: none;
+    }
+    .form-block.id-block:hover {
+      transform: none;
+    }
     .instruction {
       font-size: 16px;
     }
@@ -72,7 +80,7 @@
 <body>
   <h1>Échelle d'Apathie F-DAS</h1>
 
-  <div class="form-block">
+  <div class="form-block id-block">
     <label for="patientId">Identifiant Patient :</label><br>
     <input type="text" id="patientId" name="patientId" placeholder="Ex : ABC123" required>
   </div>
@@ -135,7 +143,8 @@
       div.classList.add("form-block");
       div.innerHTML = `<p>${index + 1}. ${text}</p>` +
         reponses.map((rep, val) => `
-          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`).join("");
+          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`
+        ).join("");
       container.appendChild(div);
     });
 
