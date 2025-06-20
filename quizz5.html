@@ -15,28 +15,31 @@
     h1 {
       margin-bottom: 20px;
     }
-    .instruction, .identifier-section {
+    .identifiant {
+      background: #e0e0e0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      text-align: left;
+      max-width: 300px;
+      margin-bottom: 20px;
+    }
+    .identifiant label {
+      font-weight: bold;
+    }
+    .identifiant input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    .instruction {
       max-width: 900px;
       margin: 0 auto 40px;
       font-size: 16px;
-      background: #eeeeee;
+      background: #fff;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: left;
-    }
-    .identifier-section {
-      background: #ddd;
-      margin-top: -10px;
-      margin-bottom: 30px;
-    }
-    .identifier-section label {
-      font-weight: bold;
-    }
-    .identifier-section input {
-      margin-top: 8px;
-      padding: 8px;
-      width: 300px;
     }
     .question {
       background: #ffffff;
@@ -85,9 +88,9 @@
 <body>
   <h1>Échelle d'Apathie F-DAS</h1>
 
-  <div class="identifier-section">
-    <label for="identifiant">Identifiant Patient :</label><br>
-    <input type="text" id="identifiant" placeholder="Saisir l'identifiant patient">
+  <div class="identifiant">
+    <label for="patientId">Identifiant Patient :</label>
+    <input type="text" id="patientId" name="patientId" placeholder="Ex : ABC123">
   </div>
 
   <div class="instruction">
@@ -148,13 +151,18 @@
       div.classList.add("question");
       div.innerHTML = `<p>${index + 1}. ${text}</p>` +
         reponses.map((rep, val) => `
-          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`
-        ).join("");
+          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`).join("");
       container.appendChild(div);
     });
 
     function generateCSV() {
-      const identifiant = document.getElementById("identifiant").value.trim() || "SansID";
+      const patientId = document.getElementById("patientId").value.trim();
+
+      if (!patientId) {
+        alert("Veuillez renseigner l'identifiant patient avant de télécharger les résultats.");
+        return;
+      }
+
       let csvContent = "Identifiant;Numéro;Question;Réponse\n";
 
       items.forEach((q, i) => {
@@ -163,15 +171,16 @@
         radios.forEach(r => { if (r.checked) selected = r.value; });
 
         const questionEscaped = q.replace(/"/g, '""');
-        csvContent += `"${identifiant}";"${i + 1}";"${questionEscaped}";"${selected}"
-`;
+        const responseEscaped = selected.replace(/"/g, '""');
+
+        csvContent += `"${patientId}";"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
       });
 
       const BOM = "\uFEFF";
       const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `${identifiant}_FDAS_resultats.csv`;
+      link.download = `${patientId}_FDAS_resultats.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
