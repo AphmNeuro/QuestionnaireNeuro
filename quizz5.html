@@ -15,33 +15,7 @@
     h1 {
       margin-bottom: 20px;
     }
-    .identifiant {
-      background: #e0e0e0;
-      padding: 15px 25px;
-      border-radius: 12px;
-      text-align: left;
-      max-width: 300px;
-      margin-bottom: 20px;
-    }
-    .identifiant label {
-      font-weight: bold;
-    }
-    .identifiant input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    .instruction {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      font-size: 16px;
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: left;
-    }
-    .question {
+    .form-block {
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -51,8 +25,11 @@
       text-align: left;
       transition: transform 0.2s ease;
     }
-    .question:hover {
+    .form-block:hover {
       transform: scale(1.01);
+    }
+    .instruction {
+      font-size: 16px;
     }
     .question p {
       font-weight: bold;
@@ -66,8 +43,15 @@
       cursor: pointer;
       font-size: 15px;
     }
-    input[type="radio"] {
+    input[type="radio"], input[type="text"] {
       margin-right: 6px;
+      padding: 8px;
+      font-size: 14px;
+    }
+    input[type="text"] {
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
     }
     button {
       background-color: #3498db;
@@ -88,12 +72,12 @@
 <body>
   <h1>Échelle d'Apathie F-DAS</h1>
 
-  <div class="identifiant">
-    <label for="patientId">Identifiant Patient :</label>
-    <input type="text" id="patientId" name="patientId" placeholder="Ex : ABC123">
+  <div class="form-block">
+    <label for="patientId">Identifiant Patient :</label><br>
+    <input type="text" id="patientId" name="patientId" placeholder="Ex : ABC123" required>
   </div>
 
-  <div class="instruction">
+  <div class="form-block instruction">
     <p>Veuillez lire attentivement chacune des affirmations suivantes. Pour chaque affirmation, sélectionnez la réponse qui correspond le mieux à ce que vous avez ressenti, fait ou pensé durant le dernier mois.</p>
     <p>Choisissez parmi :</p>
     <ul>
@@ -148,7 +132,7 @@
     const container = document.getElementById("questions");
     items.forEach((text, index) => {
       const div = document.createElement("div");
-      div.classList.add("question");
+      div.classList.add("form-block");
       div.innerHTML = `<p>${index + 1}. ${text}</p>` +
         reponses.map((rep, val) => `
           <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`).join("");
@@ -157,23 +141,19 @@
 
     function generateCSV() {
       const patientId = document.getElementById("patientId").value.trim();
-
       if (!patientId) {
         alert("Veuillez renseigner l'identifiant patient avant de télécharger les résultats.");
         return;
       }
 
       let csvContent = "Identifiant;Numéro;Question;Réponse\n";
-
       items.forEach((q, i) => {
         const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
 
         const questionEscaped = q.replace(/"/g, '""');
-        const responseEscaped = selected.replace(/"/g, '""');
-
-        csvContent += `"${patientId}";"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
+        csvContent += `"${patientId}";"${i + 1}";"${questionEscaped}";"${selected}"\n`;
       });
 
       const BOM = "\uFEFF";
