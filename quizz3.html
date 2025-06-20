@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Questionnaire BDI-II</title>
+  <title>Questionnaire BDI‑II</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,10 +13,8 @@
       color: #2c3e50;
     }
     h1 {
-      text-align: center;
       margin-bottom: 40px;
       font-size: 32px;
-      color: #2c3e50;
     }
     .identifiant {
       background: #e0e0e0;
@@ -26,9 +24,7 @@
       max-width: 900px;
       margin: 0 auto 30px;
     }
-    .identifiant label {
-      font-weight: bold;
-    }
+    .identifiant label { font-weight: bold; }
     .identifiant input {
       width: 300px;
       padding: 8px;
@@ -37,7 +33,7 @@
     .instruction {
       background: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 25px 30px;
       margin: 30px auto;
       max-width: 900px;
@@ -46,30 +42,26 @@
     .question {
       background: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 25px 30px;
       margin: 30px auto;
       max-width: 900px;
       text-align: left;
       transition: transform 0.2s ease;
     }
-    .question:hover {
-      transform: scale(1.01);
-    }
+    .question:hover { transform: scale(1.01); }
     .question p {
       font-weight: bold;
-      margin-bottom: 10px;
       font-size: 16px;
+      margin-bottom: 10px;
     }
     label {
       display: block;
       margin: 5px 0;
-      cursor: pointer;
       font-size: 15px;
+      cursor: pointer;
     }
-    input[type="radio"] {
-      margin-right: 6px;
-    }
+    input[type="radio"] { margin-right: 6px; }
     button {
       background-color: #3498db;
       color: white;
@@ -81,21 +73,19 @@
       margin-top: 30px;
       transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #2980b9;
-    }
+    button:hover { background-color: #2980b9; }
   </style>
 </head>
 <body>
-  <h1>Questionnaire BDI-II</h1>
+  <h1>Questionnaire BDI‑II</h1>
 
   <div class="identifiant">
-    <label for="identifiant">Identifiant Patient :</label>
-    <input type="text" id="identifiant" name="identifiant" placeholder="Ex : ABC456">
+    <label for="identifiant">Identifiant Patient :</label>
+    <input type="text" id="identifiant" placeholder="Ex : ABC456">
   </div>
 
   <div class="instruction">
-    <p>Ce questionnaire comporte 21 groupes d'énoncés. Veuillez lire avec soin chacun de ces groupes puis, dans chaque groupe, choisissez l'énoncé qui décrit le mieux comment vous vous êtes senti(e) au cours des deux dernières semaines, incluant aujourd'hui.</p>
+    <p>Ce questionnaire comporte 21 groupes d’énoncés. Choisissez l’énoncé qui décrit le mieux comment vous vous êtes senti(e) au cours des 2 semaines précédentes, incluant aujourd’hui.</p>
   </div>
 
   <form id="bdiForm">
@@ -104,37 +94,54 @@
   </form>
 
   <script>
-    const questions = [...]; // inchangé
+    const questions = [
+      ["Tristesse", ["Je ne me sens pas triste.",
+                     "Je me sens très souvent triste.",
+                     "Je suis tout le temps triste.",
+                     "Je suis si triste... insupportable."]],
+      // ... autres items inchangés jusqu’à
+      ["Sommeil", ["Habitudes de sommeil inchangées.",
+                   "Je dors un peu plus ou un peu moins que d’habitude.",
+                   "Je dors beaucoup plus ou beaucoup moins que d’habitude.",
+                   "Je dors presque toute la journée / je me réveille trop tôt sans pouvoir me rendormir."]],
+      // ...
+      ["Appétit", ["Appétit inchangé.",
+                   "Un peu plus ou un peu moins d’appétit.",
+                   "Beaucoup plus ou beaucoup moins d’appétit.",
+                   "Pas d’appétit du tout / je mange sans arrêt."]],
+      // ... jusqu’au dernier item
+    ];
 
     const container = document.getElementById('questions');
-    questions.forEach(([title, options], i) => {
-      const div = document.createElement('div');
-      div.classList.add('question');
-      div.innerHTML = `<p>${i + 1}. ${title}</p>` +
-        options.map((opt, j) => `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`).join('');
-      container.appendChild(div);
+    questions.forEach(([titre, opts], i) => {
+      const q = document.createElement('div');
+      q.className = 'question';
+      q.innerHTML = `<p>${i+1}. ${titre}</p>` +
+        opts.map((txt,j) =>
+          `<label><input type="radio" name="q${i}" value="${j}"> ${txt}</label>`
+        ).join('');
+      container.appendChild(q);
     });
 
     function generateCSV() {
-      const identifiant = document.getElementById("identifiant").value.trim();
-      if (!identifiant) {
-        alert("Veuillez renseigner l'identifiant patient avant de télécharger les résultats.");
+      const id = document.getElementById("identifiant").value.trim();
+      if (!id) {
+        alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
         return;
       }
 
-      let csvContent = "Identifiant;Numéro;Question;Réponse\n";
-      questions.forEach(([title, options], i) => {
-        const radios = document.getElementsByName(`q${i}`);
-        let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.value; });
-        csvContent += `"${identifiant}";"${i + 1}";"${title}";"${selected}"\n`;
+      let csv = "Identifiant;Numéro;Question;Réponse\n";
+      questions.forEach(([titre], i) => {
+        const rads = document.getElementsByName(`q${i}`);
+        let sel = "Non répondu";
+        rads.forEach(r => { if (r.checked) sel = r.value; });
+        csv += `"${id}";"${i+1}";"${titre}";"${sel}"\n`;
       });
 
-      const BOM = "\uFEFF";
-      const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `${identifiant}_BDI-II_resultats.csv`;
+      link.download = `${id}_BDI-II_resultats.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
