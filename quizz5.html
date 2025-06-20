@@ -15,15 +15,28 @@
     h1 {
       margin-bottom: 20px;
     }
-    .instruction {
+    .instruction, .identifier-section {
       max-width: 900px;
       margin: 0 auto 40px;
       font-size: 16px;
-      background: #fff;
+      background: #eeeeee;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: left;
+    }
+    .identifier-section {
+      background: #ddd;
+      margin-top: -10px;
+      margin-bottom: 30px;
+    }
+    .identifier-section label {
+      font-weight: bold;
+    }
+    .identifier-section input {
+      margin-top: 8px;
+      padding: 8px;
+      width: 300px;
     }
     .question {
       background: #ffffff;
@@ -71,6 +84,12 @@
 </head>
 <body>
   <h1>Échelle d'Apathie F-DAS</h1>
+
+  <div class="identifier-section">
+    <label for="identifiant">Identifiant Patient :</label><br>
+    <input type="text" id="identifiant" placeholder="Saisir l'identifiant patient">
+  </div>
+
   <div class="instruction">
     <p>Veuillez lire attentivement chacune des affirmations suivantes. Pour chaque affirmation, sélectionnez la réponse qui correspond le mieux à ce que vous avez ressenti, fait ou pensé durant le dernier mois.</p>
     <p>Choisissez parmi :</p>
@@ -82,6 +101,7 @@
     </ul>
     <p>Merci de répondre à chaque énoncé.</p>
   </div>
+
   <form id="fdasForm">
     <div id="questions"></div>
     <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
@@ -134,7 +154,8 @@
     });
 
     function generateCSV() {
-      let csvContent = "Numéro;Question;Réponse\n";
+      const identifiant = document.getElementById("identifiant").value.trim() || "SansID";
+      let csvContent = "Identifiant;Numéro;Question;Réponse\n";
 
       items.forEach((q, i) => {
         const radios = document.getElementsByName(`q${i}`);
@@ -142,16 +163,15 @@
         radios.forEach(r => { if (r.checked) selected = r.value; });
 
         const questionEscaped = q.replace(/"/g, '""');
-        const responseEscaped = selected.replace(/"/g, '""');
-
-        csvContent += `"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
+        csvContent += `"${identifiant}";"${i + 1}";"${questionEscaped}";"${selected}"
+`;
       });
 
       const BOM = "\uFEFF";
       const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "FDAS_resultats.csv";
+      link.download = `${identifiant}_FDAS_resultats.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
