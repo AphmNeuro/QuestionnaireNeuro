@@ -85,7 +85,7 @@
   </div>
 
   <div class="instruction">
-    <p>Ce questionnaire comporte 21 groupes d’énoncés. Choisissez l’énoncé qui décrit le mieux comment vous vous êtes senti(e) au cours des 2 semaines précédentes, incluant aujourd’hui.</p>
+    <p>Ce questionnaire comporte 21 groupes d’énoncés. Veuillez lire avec soin chacun d’entre eux puis sélectionnez l’énoncé correspondant le mieux à ce que vous avez ressenti au cours des deux dernières semaines, y compris aujourd’hui.</p>
   </div>
 
   <form id="bdiForm">
@@ -95,21 +95,27 @@
 
   <script>
     const questions = [
-      ["Tristesse", ["Je ne me sens pas triste.",
-                     "Je me sens très souvent triste.",
-                     "Je suis tout le temps triste.",
-                     "Je suis si triste... insupportable."]],
-      // ... autres items inchangés jusqu’à
-      ["Sommeil", ["Habitudes de sommeil inchangées.",
-                   "Je dors un peu plus ou un peu moins que d’habitude.",
-                   "Je dors beaucoup plus ou beaucoup moins que d’habitude.",
-                   "Je dors presque toute la journée / je me réveille trop tôt sans pouvoir me rendormir."]],
-      // ...
-      ["Appétit", ["Appétit inchangé.",
-                   "Un peu plus ou un peu moins d’appétit.",
-                   "Beaucoup plus ou beaucoup moins d’appétit.",
-                   "Pas d’appétit du tout / je mange sans arrêt."]],
-      // ... jusqu’au dernier item
+      ["Tristesse", ["Je ne me sens pas triste.","Je me sens très souvent triste.","Je suis tout le temps triste.","Je suis si triste ou si malheureux(se) que ce n'est pas supportable."]],
+      ["Pessimisme", ["Je ne suis pas découragé(e) face à mon avenir.","Je me sens plus découragé(e) qu'avant.","Je ne m'attends pas à ce que les choses s'arrangent.","Je pense que mon avenir est sans espoir."]],
+      ["Échecs dans le passé", ["Je n'ai pas le sentiment d'avoir échoué.","J'ai échoué plus souvent que je n'aurais dû.","Quand je pense à mon passé, je constate un grand nombre d'échecs.","J'ai le sentiment d'avoir complètement raté ma vie."]],
+      ["Perte de plaisir", ["J'éprouve toujours autant de plaisir qu'avant.","Je n'éprouve pas autant de plaisir qu'avant.","Je prends très peu de plaisir.","Je ne prends aucun plaisir."]],
+      ["Culpabilité", ["Je ne me sens pas particulièrement coupable.","Je me sens coupable pour bien des choses.","Je me sens coupable la plupart du temps.","Je me sens toujours coupable."]],
+      ["Sentiment d'être puni(e)", ["Je ne me sens pas puni(e).","Je sens que je pourrais être puni(e).","Je m'attends à être puni(e).","Je me sens puni(e)."]],
+      ["Sentiments envers soi-même", ["Mes sentiments envers moi-même n'ont pas changé.","J'ai perdu confiance en moi.","Je suis déçu(e) par moi-même.","Je ne m'aime pas du tout."]],
+      ["Autocritique", ["Je ne me critique pas davantage.","Je suis plus critique envers moi-même.","Je me reproche tous mes défauts.","Je me reproche tout ce qui va mal."]],
+      ["Pensées suicidaires", ["Je ne pense pas du tout au suicide.","Il m'arrive d'y penser, mais je ne passerais pas à l'acte.","J'aimerais me suicider.","Je me suiciderais si j'en avais l'occasion."]],
+      ["Pleurs", ["Je ne pleure pas plus qu'avant.","Je pleure plus qu'avant.","Je pleure pour un rien.","Je voudrais pleurer mais je ne peux pas."]],
+      ["Agitation", ["Je ne suis pas plus agité(e) qu'avant.","Je suis plus agité(e) que d'habitude.","Je suis trop agité(e) pour rester tranquille.","Je dois constamment bouger."]],
+      ["Perte d'intérêt", ["Je n'ai pas perdu d'intérêt.","Je m'intéresse moins aux gens actuels.","Je ne m'intéresse presque plus.","Je n'arrive plus à m'intéresser."]],
+      ["Indécision", ["Je prends mieux les décisions.","Il est plus difficile de décider.","J'ai beaucoup de mal à décider.","Je ne peux plus prendre aucune décision."]],
+      ["Dévalorisation", ["Je me trouve valable.","Je me sens moins utile.","Je me sens moins valable.","Je ne vaux rien."]],
+      ["Fatigue", ["Toujours autant d'énergie.","Moins d'énergie qu'avant.","Pas assez d'énergie pour faire grand-chose.","Trop fatigué(e) pour faire quoi que ce soit."]],
+      ["Sommeil", ["Habitudes de sommeil inchangées.","Je dors un peu plus ou moins que d'habitude.","Je dors beaucoup plus ou beaucoup moins que d'habitude.","Je dors presque toute la journée / je me réveille très tôt sans pouvoir me rendormir."]],
+      ["Irritabilité", ["Je ne suis pas plus irritable.","Je suis plus irritable.","Je suis beaucoup plus irritable.","Je suis constamment irritable."]],
+      ["Appétit", ["Pas de changement d'appétit.","Un peu plus ou un peu moins d'appétit.","Beaucoup plus ou beaucoup moins d'appétit.","Pas d'appétit du tout / je mange sans arrêt."]],
+      ["Concentration", ["Je me concentre aussi bien qu'avant.","Je me concentre moins bien.","J'ai beaucoup de mal à me concentrer.","Je ne peux plus me concentrer."]],
+      ["Épuisement", ["Pas plus fatigué(e) qu'avant.","Je me fatigue plus facilement.","Trop fatigué(e) pour beaucoup de choses.","Trop fatigué(e) pour ce que je faisais."]],
+      ["Désintérêt sexuel", ["Aucun changement.","Moins d'intérêt sexuel.","Beaucoup moins d'intérêt pour le sexe.","Aucun intérêt pour le sexe."]]
     ];
 
     const container = document.getElementById('questions');
