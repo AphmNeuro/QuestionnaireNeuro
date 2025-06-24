@@ -3,86 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <title>Questionnaire QUIP-RS</title>
-   <style>
-body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 30px;
-        background-color: #54A9AE; /* 👈 couleur personnalisée */
-        text-align: center;
-        color: #2c3e50;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #54A9AE;
+            text-align: center;
+            color: #2c3e50;
+        }
 
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #2c3e50;
+        }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 32px;
-        color: #2c3e50;
-    }
+        .identifiant {
+            background: #e0e0e0;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
 
-    .question-block {
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 25px 30px;
-        margin: 40px auto;
-        max-width: 900px;
-        text-align: left;
-        transition: transform 0.2s ease;
-    }
+        .identifiant label { font-weight: bold; }
+        .identifiant input {
+            width: 300px;
+            padding: 8px;
+            margin-top: 5px;
+        }
 
-    .question-block:hover {
-        transform: scale(1.01);
-    }
+        .instruction {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            margin: 30px auto;
+            max-width: 900px;
+            text-align: left;
+        }
 
-    .question-block h3 {
-        margin-top: 0;
-        color: #34495e;
-    }
+        .question-block {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px 30px;
+            margin: 40px auto;
+            max-width: 900px;
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
 
-    .sub-question {
-        margin-left: 10px;
-        margin-bottom: 25px;
-    }
+        .question-block:hover {
+            transform: scale(1.01);
+        }
 
-    .sub-question p {
-        font-weight: bold;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
+        .question-block h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
 
-    label {
-        display: inline-block;
-        margin-right: 15px;
-        margin-bottom: 5px;
-        cursor: pointer;
-        font-size: 15px;
-    }
+        .sub-question {
+            margin-left: 10px;
+            margin-bottom: 25px;
+        }
 
-    input[type="radio"] {
-        margin-right: 6px;
-    }
+        .sub-question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
 
-    button {
-        background-color: #3498db;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 30px;
-        transition: background-color 0.3s ease;
-    }
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
 
-    button:hover {
-        background-color: #2980b9;
-    }
-</style>
+        input[type="radio"] {
+            margin-right: 6px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <h1>Questionnaire QUIP-RS</h1>
+
+    <div class="identifiant">
+        <label for="identifiant">Identifiant Patient :</label>
+        <input type="text" id="identifiant" placeholder="Ex : ABC456">
+    </div>
+
+    <div class="instruction">
+        <h2>Feuille d'instructions</h2>
+        <p><strong>PÉRIODE D'ÉVALUATION</strong><br>
+        Les quatre dernières semaines ou toute période de quatre semaines dans un cadre temporel désigné.</p>
+
+        <p><strong>DESCRIPTION DES COMPORTEMENTS</strong></p>
+        <ul>
+            <li><strong>A. Jeu</strong> : casinos, jeux en ligne, loteries, billets à gratter, paris, machines à sous ou poker.</li>
+            <li><strong>B. Sexe</strong> : exigences sexuelles envers autrui, promiscuité, prostitution, changement d'orientation sexuelle, masturbation, activités sexuelles par internet ou téléphone, ou pornographie.</li>
+            <li><strong>C. Achats compulsifs</strong> : achat excessif de la même chose ou d'objets inutiles.</li>
+            <li><strong>D. Manger</strong> : consommation de plus grandes quantités ou de types différents de nourriture qu'auparavant, plus rapidement que la normale, à des moments inhabituels (comme manger la nuit), jusqu'à se sentir inconfortablement rassasié, ou lorsque vous n'avez pas faim.</li>
+            <li><strong>E. Passe-temps compulsifs</strong> : activités spécifiques, passe-temps ou autres activités organisées, telles que l'écriture, la peinture, le jardinage, la réparation ou le démontage d'objets, la collection, l'utilisation d'ordinateurs, le travail sur des projets, etc.</li>
+            <li><strong>F. Gestes répétitifs</strong> : répétition de certaines activités motrices simples, telles que le nettoyage, le rangement, la manipulation, l'examen, le tri, l'organisation, la collecte, l'accumulation ou l'agencement d'objets, etc.</li>
+            <li><strong>G. Prise de médicaments contre la MP</strong> : prise systématique de doses excessives de médicaments contre la maladie de Parkinson, ou augmentation autonome, sans avis médical, de la prise globale de médicaments contre la MP.</li>
+        </ul>
+
+        <p><strong>FRÉQUENCE DES COMPORTEMENTS</strong></p>
+        <ul>
+            <li><strong>Jamais (0)</strong> : pas du tout.</li>
+            <li><strong>Rarement (1)</strong> : peu fréquemment ou 1 jour/semaine.</li>
+            <li><strong>Parfois (2)</strong> : par moments ou 2-3 jours/semaine.</li>
+            <li><strong>Souvent (3)</strong> : la plupart du temps ou 4-5 jours/semaine.</li>
+            <li><strong>Très souvent (4)</strong> : presque toujours ou 6-7 jours/semaine.</li>
+        </ul>
+    </div>
+
     <form id="quipForm">
         <div id="questions"></div>
         <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
@@ -136,7 +193,13 @@ body {
         });
 
         function generateCSV() {
-            let csvContent = "Numéro;Question;Réponse\n";
+            const id = document.getElementById("identifiant").value.trim();
+            if (!id) {
+                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+                return;
+            }
+
+            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
             let idx = 0;
 
             blocks.forEach((blockTitle, blockIdx) => {
@@ -147,7 +210,7 @@ body {
                     radios.forEach(r => { if (r.checked) selected = r.nextSibling.textContent.trim(); });
 
                     const questionLabel = `${blockTitle.split(" ")[0]} - ${domain}`;
-                    csvContent += `"${idx + 1}";"${questionLabel}";"${selected}"\n`;
+                    csvContent += `"${id}";"${idx + 1}";"${questionLabel}";"${selected}"\n`;
                     idx++;
                 });
             });
@@ -157,10 +220,6 @@ body {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = "QUIP-RS_resultats.csv";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-</body>
-</html>
+            document.body.appendChild(link
+::contentReference[oaicite:0]{index=0}
+ 
