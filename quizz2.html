@@ -1,160 +1,212 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Questionnaire PDQ-39</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 30px;
-        background-color: #54A9AE;
-        text-align: center;
-        color: #2c3e50;
-    }
+    <meta charset="UTF-8">
+    <title>Questionnaire PDQ-39</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #54A9AE; /* Fond bleu */
+            text-align: center;
+            color: #2c3e50;
+        }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 32px;
-        color: #2c3e50;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #2c3e50;
+        }
 
-    .question {
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 25px 30px;
-        margin: 30px auto;
-        max-width: 900px;
-        text-align: left;
-        transition: transform 0.2s ease;
-    }
+        .identifiant {
+            background: #e0e0e0;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
 
-    .question:hover {
-        transform: scale(1.01);
-    }
+        .identifiant label { font-weight: bold; }
+        .identifiant input {
+            width: 300px;
+            padding: 8px;
+            margin-top: 5px;
+        }
 
-    .question p {
-        font-weight: bold;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
+        .instruction {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            margin: 30px auto;
+            max-width: 900px;
+            text-align: left;
+        }
 
-    label {
-        display: inline-block;
-        margin-right: 15px;
-        margin-bottom: 5px;
-        cursor: pointer;
-        font-size: 15px;
-    }
+        .question-block {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px 30px;
+            margin: 40px auto;
+            max-width: 900px;
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
 
-    input[type="radio"] {
-        margin-right: 6px;
-    }
+        .question-block:hover {
+            transform: scale(1.01);
+        }
 
-    button {
-        background-color: #3498db;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 30px;
-        transition: background-color 0.3s ease;
-    }
+        .question-block h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
 
-    button:hover {
-        background-color: #2980b9;
-    }
-</style>
+        .sub-question {
+            margin-left: 10px;
+            margin-bottom: 25px;
+        }
+
+        .sub-question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        input[type="radio"] {
+            margin-right: 6px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-<h1>Questionnaire PDQ-39</h1>
-<form id="quizForm">
-    <div id="questions"></div>
-    <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
-</form>
+    <h1>Questionnaire PDQ-39</h1>
 
-<script>
-const questions = [
-    "Avez-vous eu des difficultés dans la pratique de vos loisirs ?",
-    "Avez-vous eu des difficultés à vous occuper de votre maison (ménage, cuisine, bricolage…) ?",
-    "Avez-vous eu des difficultés à porter vos sacs de provision ?",
-    "Avez-vous eu des difficultés à monter les escaliers ?",
-    "Avez-vous eu des difficultés à sortir seul(e) de chez vous ?",
-    "Avez-vous eu des difficultés à marcher dans la rue ?",
-    "Avez-vous eu des difficultés à bouger dans votre lit ou à vous tourner ?",
-    "Avez-vous eu des douleurs physiques ?",
-    "Avez-vous eu des douleurs dues à des raideurs musculaires ou des crampes ?",
-    "Avez-vous eu des sensations de picotements ou d’engourdissement ?",
-    "Vous êtes-vous senti déprimé(e) ?",
-    "Vous êtes-vous senti nerveux(se) ou anxieux(se) ?",
-    "Avez-vous perdu confiance en vous ?",
-    "Avez-vous eu peur de tomber en public ?",
-    "Avez-vous évité de sortir par peur de tomber ?",
-    "Avez-vous eu des difficultés à parler aux autres ?",
-    "Avez-vous eu des difficultés à vous faire comprendre ?",
-    "Les gens ont-ils eu du mal à vous comprendre ?",
-    "Vous êtes-vous senti ignoré(e) par les autres ?",
-    "Avez-vous eu des difficultés à écrire ?",
-    "Avez-vous eu des difficultés à manger ?",
-    "Avez-vous eu des difficultés à couper votre nourriture ?",
-    "Avez-vous eu des difficultés à boire ?",
-    "Avez-vous eu des difficultés à avaler ?",
-    "Vous êtes-vous senti gêné(e) par votre apparence ?",
-    "Avez-vous été embarrassé(e) en public ?",
-    "Avez-vous eu des difficultés à avoir des rapports sexuels ?",
-    "Avez-vous eu des difficultés à faire les courses ?",
-    "Avez-vous eu des difficultés à utiliser les transports publics ?",
-    "Avez-vous eu des difficultés à accomplir vos tâches quotidiennes ?",
-    "Avez-vous eu des difficultés à gérer votre argent ?",
-    "Avez-vous eu des difficultés à utiliser le téléphone ?",
-    "Avez-vous eu des difficultés à lire ?",
-    "Avez-vous eu des difficultés à regarder la télévision ?",
-    "Avez-vous eu des difficultés à écouter la radio ?",
-    "Avez-vous eu des difficultés à participer à des activités sociales ?",
-    "Vous êtes-vous senti isolé(e) ?",
-    "Vous êtes-vous senti dépendant(e) des autres ?"
-];
+    <div class="identifiant">
+        <label for="identifiant">Identifiant Patient :</label>
+        <input type="text" id="identifiant" placeholder="Ex : ABC456">
+    </div>
 
-const container = document.getElementById('questions');
-questions.forEach((q, i) => {
-    const div = document.createElement('div');
-    div.classList.add('question');
-    div.innerHTML = `<p>${i + 1}. ${q}</p>
-        <label><input type="radio" name="q${i}" value="Jamais"> Jamais</label>
-        <label><input type="radio" name="q${i}" value="Rarement"> Rarement</label>
-        <label><input type="radio" name="q${i}" value="Parfois"> Parfois</label>
-        <label><input type="radio" name="q${i}" value="Souvent"> Souvent</label>
-        <label><input type="radio" name="q${i}" value="Toujours"> Toujours</label>`;
-    container.appendChild(div);
-});
+    <div class="instruction">
+        <h2>Instructions</h2>
+        <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 6.</strong></p>
+        <p><strong>Nous vous prions de baser votre réponse sur la façon dont vous-mêmes réagissez et non sur la façon dont les autres réagissent ou vous pensez devoir réagir.</strong></p>
+        <p><strong>1. Jamais 2. Presque jamais 3. Occasionnellement 4. Habituellement 5. Presque toujours 6. Toujours</strong></p>
+    </div>
 
-function generateCSV() {
-    let csvContent = "Numéro;Question;Réponse\n";
+    <form id="quizForm">
+        <div id="questions"></div>
+        <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+    </form>
 
-    questions.forEach((q, i) => {
-        const radios = document.getElementsByName(`q${i}`);
-        let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.value; });
+    <script>
+        const questions = [
+            "Avez-vous eu des difficultés dans la pratique de vos loisirs ?",
+            "Avez-vous eu des difficultés à vous occuper de votre maison (ménage, cuisine, bricolage…) ?",
+            "Avez-vous eu des difficultés à porter vos sacs de provision ?",
+            "Avez-vous eu des problèmes pour parcourir 1km à pied ?",
+            "Avez-vous eu des problèmes pour parcourir 100m à pied ?",
+            "Avez-vous eu des difficultés à vous déplacer chez vous aussi aisément que vous le souhaiteriez ?",
+            "Avez-vous eu des difficultés à vous déplacer dans les lieux publics ?",
+            "Avez-vous eu besoin de quelqu’un pour vous accompagner quand vous sortez ?",
+            "Avez-vous eu peur ou avez-vous été inquiet à l’idée de tomber dans un lieu public ?",
+            "Avez-vous été confiné(e) chez vous plus que vous ne l’auriez souhaité ?",
+            "Avez-vous eu des difficultés pour vous laver ?",
+            "Avez-vous eu des difficultés pour vous habiller ?",
+            "Avez-vous eu des difficultés pour boutonner vos vêtements ou lacer vos chaussures ?",
+            "Avez-vous eu des difficultés pour écrire lisiblement ?",
+            "Avez-vous eu des difficultés pour couper la nourriture ?",
+            "Avez-vous eu des difficultés pour tenir un verre sans le renverser ?",
+            "Vous êtes-vous senti(e) déprimé(e) ?",
+            "Vous êtes-vous senti(e) isolé(e) et seul(e) ?",
+            "Vous êtes-vous senti(e) au bord des larmes ou avez-vous pleuré ?",
+            "Avez-vous ressenti de la colère ou de l’amertume ?",
+            "Vous-êtes vous senti(e) anxieux(se) ?",
+            "Vous êtes-vous senti(e) inquiet(e) pour votre avenir ?",
+            "Avez-vous ressenti le besoin de dissimuler aux autres votre maladie de Parkinson ?",
+            "Avez-vous évité des situations où vous deviez manger ou boire en public ?",
+            "Vous êtes-vous senti(e) gêné(e) en public à cause de votre maladie de Parkinson ?",
+            "Vous êtes-vous senti(e) inquiet(e) des réactions des autres à votre égard ?",
+            "Avez-vous eu des problèmes dans vos relations avec vos proches ?",
+            "Avez-vous manqué de soutien dont vous aviez besoin de la part de votre époux(se) ou conjoint(e) ?",
+            "Avez-vous manqué de soutien dont vous aviez besoin de la part de votre famille ou de vos ami(e)s ?",
+            "Vous êtes-vous endormi(e) dans la journée de façon innatendue ?",
+            "Avez-vous eu des problèmes de concentration, par exemple en lisant ou devant la télévision ?",
+            "Avez-vous senti que votre mémoire était mauvaise ?",
+            "Avez-vous fait de mauvais rêves ou eu des hallucinations ?",
+            "Avez-vous des difficultés pour parler ?",
+            "Vous êtes-vous senti(e) incapable de communiquer normalement avec les autres ?",
+            "Vous êtes-vous senti(e) ignoré(e) par les autres ?",
+            "Avez-vous eu des crampes ou spasmes musculaires douloureux ?",
+            "Avez-vous eu mal ou avez-vous eu des douleurs dans les articulations ou dans le corps ?",
+            "Avez-vous eu des sensations désagréables de chaud ou de froid ?"
+        ];
 
-        const questionEscaped = q.replace(/"/g, '""');
-        const responseEscaped = selected.replace(/"/g, '""');
+        const container = document.getElementById('questions');
+        questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.classList.add('question');
+            div.innerHTML = `<p>${i + 1}. ${q}</p>
+                <label><input type="radio" name="q${i}" value="Jamais"> Jamais</label>
+                <label><input type="radio" name="q${i}" value="Rarement"> Rarement</label>
+                <label><input type="radio" name="q${i}" value="Parfois"> Parfois</label>
+                <label><input type="radio" name="q${i}" value="Souvent"> Souvent</label>
+                <label><input type="radio" name="q${i}" value="Toujours"> Toujours</label>`;
+            container.appendChild(div);
+        });
 
-        csvContent += `"${i + 1}";"${questionEscaped}";"${responseEscaped}"\n`;
-    });
+        function generateCSV() {
+            const id = document.getElementById("identifiant").value.trim();
+            if (!id) {
+                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+                return;
+            }
 
-    const BOM = "\uFEFF";
-    const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "PDQ39_resultats.csv";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-</script>
+            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            questions.forEach((q, i) => {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = "Non répondu";
+                radios.forEach(r => { if (r.checked) selected = r.value; });
+
+                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+            });
+
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "PDQ39_resultats.csv";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
