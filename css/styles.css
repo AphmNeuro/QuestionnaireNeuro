@@ -101,11 +101,12 @@ body {
     position: absolute;
     top: 50px;  /* Position en haut de la page */
     left: 10px; /* Position à gauche */
-    width: 200px; /* Largeur du GIF */
+    width: 15%; /* Utiliser un pourcentage pour le rendre responsive */
     height: auto;
+    max-width: 200px;  /* Largeur maximale du GIF pour les grands écrans */
 }
 
 .gif-container img {
-    width: 200px;  /* Largeur du GIF */
+    width: 100%;  /* Faire en sorte que le GIF s'ajuste à la largeur de son conteneur */
     height: auto;  /* Laisser la hauteur s'ajuster proportionnellement */
 }
