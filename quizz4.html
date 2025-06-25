@@ -1,170 +1,195 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Échelle UPPS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 30px;
-      background-color: #54A9AE;
-      text-align: center;
-      color: #2c3e50;
-    }
-    h1 {
-      margin-bottom: 20px;
-    }
-    .instruction {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      font-size: 16px;
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: left;
-    }
-    .question {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 25px 30px;
-      margin: 30px auto;
-      max-width: 900px;
-      text-align: left;
-      transition: transform 0.2s ease;
-    }
-    .question:hover {
-      transform: scale(1.01);
-    }
-    .question p {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-    label {
-      display: inline-block;
-      margin-right: 20px;
-      margin-bottom: 5px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    input[type="radio"] {
-      margin-right: 6px;
-    }
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 30px;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #2980b9;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Questionnaire UPPS-P</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #54A9AE;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #2c3e50;
+        }
+
+        .identifiant {
+            background: #e0e0e0;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .identifiant label { font-weight: bold; }
+        .identifiant input {
+            width: 300px;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .instruction {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            margin: 30px auto;
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .question-block {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px 30px;
+            margin: 40px auto;
+            max-width: 900px;
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
+
+        .question-block:hover {
+            transform: scale(1.01);
+        }
+
+        .question-block h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
+
+        .sub-question {
+            margin-left: 10px;
+            margin-bottom: 25px;
+        }
+
+        .sub-question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        input[type="radio"] {
+            margin-right: 6px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-  <h1>Échelle UPPS</h1>
-  <div class="instruction">
-    <p>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé.</p>
-    <p>Choisissez l'une des options suivantes :</p>
-    <ul>
-      <li><strong>1</strong> — Tout à fait d'accord</li>
-      <li><strong>2</strong> — Plutôt d'accord</li>
-      <li><strong>3</strong> — Plutôt en désaccord</li>
-      <li><strong>4</strong> — Tout à fait en désaccord</li>
-    </ul>
-    <p>Assurez-vous d'avoir répondu à chaque énoncé ci-dessous.</p>
-  </div>
-  <form id="uppsForm">
-    <div id="questions"></div>
-    <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
-  </form>
+    <h1>Questionnaire UPPS-P</h1>
 
-  <script>
-    const items = [
-      "J'ai une attitude réservée et prudente dans la vie.",
-      "J'ai des difficultés à contrôler mes impulsions.",
-      "Je recherche généralement des expériences et sensations nouvelles et excitantes.",
-      "Je préfère généralement mener les choses jusqu'au bout.",
-      "Ma manière de penser est d'habitude réfléchie et méticuleuse.",
-      "J'ai des difficultés à résister à mes envies (pour la nourriture, les cigarettes, etc.).",
-      "J'essayerais tout.",
-      "J'ai tendance à abandonner facilement.",
-      "Je ne suis pas de ces gens qui parlent sans réfléchir.",
-      "Je m'implique souvent dans des situations dont j'aimerais pouvoir me sortir par la suite.",
-      "J'aime les sports et les jeux dans lesquels on doit choisir son prochain mouvement très rapidement.",
-      "Je n'aime vraiment pas les tâches inachevées.",
-      "Je préfère m'interrompre et réfléchir avant d'agir.",
-      "Quand je ne me sens pas bien, je fais souvent des choses que je regrette ensuite, afin de me sentir mieux tout de suite.",
-      "Ça me plairait de faire du ski nautique.",
-      "Une fois que je commence quelque chose je déteste m'interrompre.",
-      "Je n'aime pas commencer un projet avant de savoir exactement comment procéder.",
-      "Parfois quand je ne me sens pas bien, je ne parviens pas à arrêter ce que je suis en train de faire même si cela me fait me sentir plus mal.",
-      "J'éprouve du plaisir à prendre des risques.",
-      "Je me concentre facilement.",
-      "J'aimerais faire du saut en parachute.",
-      "J'achève ce que je commence.",
-      "J'ai tendance à valoriser et à suivre une approche rationnelle et « sensée » des choses.",
-      "Quand je suis contrarié(e), j'agis souvent sans réfléchir.",
-      "Je me réjouis des expériences et sensations nouvelles même si elles sont un peu effrayantes et non-conformistes.",
-      "Je m'organise de façon à ce que les choses soient faites à temps.",
-      "D'habitude je me décide après un raisonnement bien mûri.",
-      "Quand je me sens rejeté(e), je dis souvent des choses que je regrette ensuite.",
-      "J'aimerais apprendre à conduire un avion.",
-      "Je suis une personne productive qui termine toujours son travail.",
-      "Je suis une personne prudente.",
-      "C'est difficile pour moi de me retenir d'agir selon mes sentiments.",
-      "J'aime parfois faire des choses qui sont un petit peu effrayantes.",
-      "Une fois que je commence un projet, je le termine presque toujours.",
-      "Avant de m'impliquer dans une nouvelle situation, je préfère savoir ce que je dois en attendre.",
-      "J'aggrave souvent les choses parce que j'agis sans réfléchir quand je suis contrarié(e).",
-      "J'aimerais la sensation de skier très vite sur des pentes raides.",
-      "Il y a tant de petites tâches qui doivent être faites que parfois je les ignore simplement toutes.",
-      "D'habitude je réfléchis soigneusement avant de faire quoi que ce soit.",
-      "Avant de me décider, je considère tous les avantages et inconvénients.",
-      "Quand la discussion s'échauffe, je dis souvent des choses que je regrette ensuite.",
-      "J'aimerais aller faire de la plongée sous-marine.",
-      "Je suis toujours capable de maîtriser mes émotions.",
-      "J'aimerais conduire vite.",
-      "Parfois je fais des choses sur un coup de tête que je regrette par la suite."
-    ];
+    <div class="identifiant">
+        <label for="identifiant">Identifiant Patient :</label>
+        <input type="text" id="identifiant" placeholder="Ex : ABC456">
+    </div>
 
-    const container = document.getElementById("questions");
-    items.forEach((text, index) => {
-      const div = document.createElement("div");
-      div.classList.add("question");
-      div.innerHTML = `<p>${index + 1}. ${text}</p>` +
-        ["1", "2", "3", "4"].map(val => `
-          <label><input type="radio" name="q${index}" value="${val}"> ${val}</label>`
-        ).join("");
-      container.appendChild(div);
-    });
+    <div class="instruction">
+        <h2>Instructions</h2>
+        <p><strong>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé. Si vous êtes Tout à fait d'accord avec l'affirmation encerclez le chiffre 1, si vous êtes Plutôt d'accord encerclez le chiffre 2, si vous êtes Plutôt en désaccord encerclez le chiffre 3 et si vous êtes Tout à fait en désaccord encerclez le chiffre 4. Assurez-vous que vous avez indiqué votre accord ou désaccord pour chaque énoncé ci-dessous.</strong></p>
+    </div>
 
-    function generateCSV() {
-      let csvContent = "Numéro;Énoncé;Réponse\n";
-      items.forEach((text, index) => {
-        const radios = document.getElementsByName(`q${index}`);
-        let selected = "Non répondu";
-        radios.forEach(r => { if (r.checked) selected = r.value; });
-        csvContent += `${index + 1};"${text}";"${selected}"\n`;
-      });
+    <form id="uppsForm">
+        <div id="questions"></div>
+        <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+    </form>
 
-      const BOM = "\uFEFF";
-      const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "UPPS_resultats.csv";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
+    <script>
+        const questions = [
+            "Quand je suis vraiment enthousiaste, j’agis sans réfléchir aux conséquences.",
+            "Je fais des choses impulsivement sans penser aux risques.",
+            "J’ai tendance à agir rapidement sans réfléchir.",
+            "Quand je suis contrarié(e), je réagis impulsivement.",
+            "D’habitude je réfléchis soigneusement avant de faire quoi que ce soit.",
+            "Je préfère toujours bien réfléchir avant de prendre une décision importante.",
+            "Je me concentre souvent sur les avantages et inconvénients avant d’agir.",
+            "Je préfère mener les choses jusqu’au bout.",
+            "Je termine toujours ce que je commence.",
+            "Je me concentre et persévère pour accomplir mes tâches.",
+            "Je recherche fréquemment des expériences nouvelles et excitantes.",
+            "J’éprouve du plaisir à prendre des risques.",
+            "J'aime les défis et les situations nouvelles.",
+            "Quand je suis vraiment enthousiaste, je n'attends pas et je fais immédiatement quelque chose.",
+            "Quand je suis contrarié(e), j’agis immédiatement, sans tenir compte des conséquences.",
+            "Je pense souvent qu'il est trop tard pour revenir en arrière.",
+            "J’ai du mal à attendre ma tournée de café ou ma récréation.",
+            "J’ai du mal à prendre du recul lorsque je suis impliqué dans une tâche.",
+            "J’agis spontanément, sans planifier à l'avance.",
+            "Je trouve que certaines choses me plaisent si vite, que je n'y réfléchis même pas."
+        ];
+
+        const container = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question-block');
+            questionDiv.innerHTML = `
+                <h3>Question ${index + 1}</h3>
+                <p>${q}</p>
+                <div class="sub-question">
+                    <label><input type="radio" name="q${index}" value="1"> 1 - Tout à fait d'accord</label>
+                    <label><input type="radio" name="q${index}" value="2"> 2 - Plutôt d'accord</label>
+                    <label><input type="radio" name="q${index}" value="3"> 3 - Plutôt en désaccord</label>
+                    <label><input type="radio" name="q${index}" value="4"> 4 - Tout à fait en désaccord</label>
+                </div>
+            `;
+            container.appendChild(questionDiv);
+        });
+
+        function generateCSV() {
+            const id = document.getElementById("identifiant").value.trim();
+            if (!id) {
+                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+                return;
+            }
+
+            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            questions.forEach((q, i) => {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = "Non répondu";
+                radios.forEach(r => { if (r.checked) selected = r.value; });
+
+                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+            });
+
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "UPPS-P_resultats.csv";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
