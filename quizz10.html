@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Questionnaire PAS - Anxiété </title>
+    <title>Questionnaire PAS - Échelle d'Anxiété Parkinson</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -116,63 +116,72 @@
 
     <div class="instruction">
         <h2>Instructions</h2>
-        <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 6.</strong></p>
+        <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 5.</strong></p>
         <p><strong>Nous vous prions de baser votre réponse sur la façon dont vous-mêmes réagissez et non sur la façon dont les autres réagissent ou vous pensez devoir réagir.</strong></p>
         <p><strong>1. Jamais 2. Très peu ou rarement 3. Légèrement ou parfois 4. Modérément ou souvent 5. Fortement ou (presque) toujours</strong></p>
     </div>
 
     <form id="pasForm">
-        <div id="questions"></div>
+        <div class="question-block">
+            <h3>A. Anxiété persistante</h3>
+            <p>Les questions suivantes concernent votre anxiété persistante. Veuillez cocher une réponse pour chaque question.</p>
+            <div id="groupA"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>B. Anxiété épisodique</h3>
+            <p>Les questions suivantes portent sur votre anxiété épisodique. Veuillez cocher une réponse pour chaque question.</p>
+            <div id="groupB"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>C. Comportements d'évitement</h3>
+            <p>Les questions suivantes concernent les comportements d'évitement face à certaines situations.</p>
+            <div id="groupC"></div>
+        </div>
+
         <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
     </form>
 
     <script>
-        const questions = [
+        const groupAQuestions = [
             "Vous sentir anxieux ou nerveux",
             "Vous sentir tendu ou stressé",
             "Etre incapable de vous détendre",
             "Vous faire trop de soucis pour des petits problèmes de la vie de tous les jours",
-            "Craindre qu'un malheur, ou même le pire, va se produire",
-            "Etre pris de panique ou d'une peur intense",
-            "Avoir de la difficulté à respirer",
-            "Avoir des palpitations ou le cœur qui s'emballe",
-            "Avoir peur de perdre le contrôle",
-            "Les situations sociales (où on pourrait être observé ou jugé par d'autres)",
-            "Les lieux publics (situations dont il peut être difficile ou gênant de s'échapper)",
-            "Des objets ou des situations spécifiques (comme prendre l'avion, être en hauteur, les araignées)",
-            "Vous sentir submergé par des émotions négatives",
-            "Avoir des sentiments de frustration",
-            "Ne pas pouvoir profiter de la vie pleinement",
-            "Sentir que vos émotions vous échappent",
-            "Trouver difficile de gérer le stress au quotidien",
-            "Avoir des pensées récurrentes sur des situations stressantes",
-            "Vous sentir inapte à faire face à vos problèmes",
-            "Eviter des situations parce qu'elles vous effraient",
-            "Avoir de la difficulté à parler en public à cause de la peur",
-            "Eviter les interactions sociales par crainte d'être jugé",
-            "Devenir excessivement nerveux dans des situations normales",
-            "Ressentir des douleurs physiques à cause de l'anxiété",
-            "Eviter des lieux publics par crainte d'être vu",
-            "Ne pas pouvoir respirer correctement lorsque vous êtes stressé",
-            "Manquer de concentration ou de focus à cause de l'anxiété",
-            "Peur de perdre le contrôle de vos émotions",
-            "Eviter d'effectuer des activités quotidiennes à cause de l'anxiété"
+            "Craindre qu'un malheur, ou même le pire, va se produire"
         ];
 
-        const container = document.getElementById('questions');
-        questions.forEach((q, i) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.classList.add('question-block');
-            questionDiv.innerHTML = `
-                <h3>Question ${i + 1}</h3>
-                <p>${q}</p>
-                <label><input type="radio" name="q${i}" value="0"> Jamais</label>
-                <label><input type="radio" name="q${i}" value="1"> Très peu ou rarement</label>
-                <label><input type="radio" name="q${i}" value="2"> Légèrement ou parfois</label>
-                <label><input type="radio" name="q${i}" value="3"> Modérément ou souvent</label>
-                <label><input type="radio" name="q${i}" value="4"> Fortement ou (presque) toujours</label>
-            `;
-            container.appendChild(questionDiv);
+        const groupBQuestions = [
+            "Etre pris de panique ou d'une peur intense",
+            "Avoir de la difficulté à respirer",
+            "Avoir des palpitations ou le cœur qui s'emballe (sans lien avec un effort ou une activité physique)",
+            "Avoir peur de perdre le contrôle"
+        ];
+
+        const groupCQuestions = [
+            "Les situations sociales (où on pourrait être observé ou jugé par d'autres, comme prendre la parole en public ou discuter avec des inconnus)",
+            "Les lieux publics (situations dont il peut être difficile ou gênant de s'échapper, telles que les files d'attente, la foule, les ponts ou les transports en commun)",
+            "Des objets ou des situations spécifiques (comme prendre l'avion, être en hauteur, les araignées ou d'autres animaux, les piqûres ou la vue du sang)"
+        ];
+
+        const allQuestions = [groupAQuestions, groupBQuestions, groupCQuestions];
+        
+        allQuestions.forEach((group, index) => {
+            group.forEach((q, i) => {
+                const container = document.getElementById(`group${String.fromCharCode(65 + index)}`);
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('sub-question');
+                questionDiv.innerHTML = `
+                    <p>${i + 1}. ${q}</p>
+                    <label><input type="radio" name="q${index}-${i}" value="1"> Jamais</label>
+                    <label><input type="radio" name="q${index}-${i}" value="2"> Très peu ou rarement</label>
+                    <label><input type="radio" name="q${index}-${i}" value="3"> Légèrement ou parfois</label>
+                    <label><input type="radio" name="q${index}-${i}" value="4"> Modérément ou souvent</label>
+                    <label><input type="radio" name="q${index}-${i}" value="5"> Fortement ou (presque) toujours</label>
+                `;
+                container.appendChild(questionDiv);
+            });
         });
 
         function generateCSV() {
@@ -183,12 +192,14 @@
             }
 
             let csvContent = "Identifiant;Numéro;Question;Réponse\n";
-            questions.forEach((q, i) => {
-                const radios = document.getElementsByName(`q${i}`);
-                let selected = "Non répondu";
-                radios.forEach(r => { if (r.checked) selected = r.value; });
+            allQuestions.forEach((group, groupIndex) => {
+                group.forEach((question, questionIndex) => {
+                    const radios = document.getElementsByName(`q${groupIndex}-${questionIndex}`);
+                    let selected = "Non répondu";
+                    radios.forEach(r => { if (r.checked) selected = r.value; });
 
-                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+                    csvContent += `"${id}";"${groupIndex + 1}-${questionIndex + 1}";"${question}";"${selected}"\n`;
+                });
             });
 
             const BOM = "\uFEFF";
