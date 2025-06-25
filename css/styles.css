@@ -99,7 +99,7 @@ body {
 /* === Ajouter le GIF en haut à gauche === */
 .gif-container {
     position: absolute;
-    top: 25px;  /* Position en haut de la page */
+    top: 50px;  /* Position en haut de la page */
     left: 10px; /* Position à gauche */
     width: 200px; /* Largeur du GIF */
     height: auto;
