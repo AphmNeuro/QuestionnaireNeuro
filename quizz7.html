@@ -126,6 +126,22 @@
           <label><input type="checkbox" name="autres_traitements" value="Antidépresseur"> Antidépresseur</label>
           <label><input type="checkbox" name="autres_traitements" value="Anxiolytique"> Anxiolytique</label>
         </div>
+
+        <!-- Ajout des nouvelles questions -->
+        <label for="dopa">DOPA (ON/OFF) :</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="dopa" value="ON"> ON</label>
+          <label><input type="checkbox" name="dopa" value="OFF"> OFF</label>
+        </div>
+
+        <label for="stim">STIM (ON/OFF) :</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="stim" value="ON"> ON</label>
+          <label><input type="checkbox" name="stim" value="OFF"> OFF</label>
+        </div>
+
+        <label for="moca_score">Moca Score :</label>
+        <input type="number" id="moca_score" name="moca_score" placeholder="Entrez le score du Moca">
       </div>
 
       <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
@@ -150,7 +166,10 @@
         Score_HY: form.score_hy.value,
         Date_traitement: form.date_traitement.value,
         Traitements: Array.from(form.querySelectorAll('input[name="traitements"]:checked')).map(el => el.value).join(", "),
-        Autres_traitements: Array.from(form.querySelectorAll('input[name="autres_traitements"]:checked')).map(el => el.value).join(", ")
+        Autres_traitements: Array.from(form.querySelectorAll('input[name="autres_traitements"]:checked')).map(el => el.value).join(", "),
+        Dopa: form.dopa.checked ? form.dopa.value : "Non répondu",
+        Stim: form.stim.checked ? form.stim.value : "Non répondu",
+        Moca_Score: form.moca_score.value
       };
 
       let csv = "Variable;Valeur\n";
