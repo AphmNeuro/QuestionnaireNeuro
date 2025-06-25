@@ -101,7 +101,7 @@ body {
     position: absolute;
     top: 10px;  /* Position en haut de la page */
     left: 10px; /* Position à gauche */
-    width: 50px; /* Largeur du GIF */
+    width: 200px; /* Largeur du GIF */
     height: auto;
 }
 
