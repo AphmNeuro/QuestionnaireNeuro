@@ -95,3 +95,17 @@ body {
 .dropdown-menu li:hover {
     background-color: #555; /* Fond plus foncé au survol */
 }
+
+/* === Ajouter le GIF en haut à gauche === */
+.gif-container {
+    position: absolute;
+    top: 10px;  /* Position en haut de la page */
+    left: 10px; /* Position à gauche */
+    width: 50px; /* Largeur du GIF */
+    height: auto;
+}
+
+.gif-container img {
+    max-width: 100%;
+    height: auto;
+}
