@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Questionnaire PAS - Anxiété </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #54A9AE; /* Fond bleu */
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #2c3e50;
+        }
+
+        .identifiant {
+            background: #e0e0e0;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .identifiant label { font-weight: bold; }
+        .identifiant input {
+            width: 300px;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .instruction {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            margin: 30px auto;
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .question-block {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px 30px;
+            margin: 40px auto;
+            max-width: 900px;
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
+
+        .question-block:hover {
+            transform: scale(1.01);
+        }
+
+        .question-block h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
+
+        .sub-question {
+            margin-left: 10px;
+            margin-bottom: 25px;
+        }
+
+        .sub-question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        input[type="radio"] {
+            margin-right: 6px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Questionnaire PAS - Échelle d'Anxiété Parkinson</h1>
+
+    <div class="identifiant">
+        <label for="identifiant">Identifiant Patient :</label>
+        <input type="text" id="identifiant" placeholder="Ex : ABC456">
+    </div>
+
+    <div class="instruction">
+        <h2>Instructions</h2>
+        <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 6.</strong></p>
+        <p><strong>Nous vous prions de baser votre réponse sur la façon dont vous-mêmes réagissez et non sur la façon dont les autres réagissent ou vous pensez devoir réagir.</strong></p>
+        <p><strong>1. Jamais 2. Très peu ou rarement 3. Légèrement ou parfois 4. Modérément ou souvent 5. Fortement ou (presque) toujours</strong></p>
+    </div>
+
+    <form id="pasForm">
+        <div id="questions"></div>
+        <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+    </form>
+
+    <script>
+        const questions = [
+            "Vous sentir anxieux ou nerveux",
+            "Vous sentir tendu ou stressé",
+            "Etre incapable de vous détendre",
+            "Vous faire trop de soucis pour des petits problèmes de la vie de tous les jours",
+            "Craindre qu'un malheur, ou même le pire, va se produire",
+            "Etre pris de panique ou d'une peur intense",
+            "Avoir de la difficulté à respirer",
+            "Avoir des palpitations ou le cœur qui s'emballe",
+            "Avoir peur de perdre le contrôle",
+            "Les situations sociales (où on pourrait être observé ou jugé par d'autres)",
+            "Les lieux publics (situations dont il peut être difficile ou gênant de s'échapper)",
+            "Des objets ou des situations spécifiques (comme prendre l'avion, être en hauteur, les araignées)",
+            "Vous sentir submergé par des émotions négatives",
+            "Avoir des sentiments de frustration",
+            "Ne pas pouvoir profiter de la vie pleinement",
+            "Sentir que vos émotions vous échappent",
+            "Trouver difficile de gérer le stress au quotidien",
+            "Avoir des pensées récurrentes sur des situations stressantes",
+            "Vous sentir inapte à faire face à vos problèmes",
+            "Eviter des situations parce qu'elles vous effraient",
+            "Avoir de la difficulté à parler en public à cause de la peur",
+            "Eviter les interactions sociales par crainte d'être jugé",
+            "Devenir excessivement nerveux dans des situations normales",
+            "Ressentir des douleurs physiques à cause de l'anxiété",
+            "Eviter des lieux publics par crainte d'être vu",
+            "Ne pas pouvoir respirer correctement lorsque vous êtes stressé",
+            "Manquer de concentration ou de focus à cause de l'anxiété",
+            "Peur de perdre le contrôle de vos émotions",
+            "Eviter d'effectuer des activités quotidiennes à cause de l'anxiété"
+        ];
+
+        const container = document.getElementById('questions');
+        questions.forEach((q, i) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question-block');
+            questionDiv.innerHTML = `
+                <h3>Question ${i + 1}</h3>
+                <p>${q}</p>
+                <label><input type="radio" name="q${i}" value="0"> Jamais</label>
+                <label><input type="radio" name="q${i}" value="1"> Très peu ou rarement</label>
+                <label><input type="radio" name="q${i}" value="2"> Légèrement ou parfois</label>
+                <label><input type="radio" name="q${i}" value="3"> Modérément ou souvent</label>
+                <label><input type="radio" name="q${i}" value="4"> Fortement ou (presque) toujours</label>
+            `;
+            container.appendChild(questionDiv);
+        });
+
+        function generateCSV() {
+            const id = document.getElementById("identifiant").value.trim();
+            if (!id) {
+                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+                return;
+            }
+
+            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            questions.forEach((q, i) => {
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = "Non répondu";
+                radios.forEach(r => { if (r.checked) selected = r.value; });
+
+                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+            });
+
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "PAS_resultats.csv";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
