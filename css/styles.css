@@ -106,6 +106,6 @@ body {
 }
 
 .gif-container img {
-    max-width: 100%;
-    height: auto;
+    width: 200px;  /* Largeur du GIF */
+    height: auto;  /* Laisser la hauteur s'ajuster proportionnellement */
 }
