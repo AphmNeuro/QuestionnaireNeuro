@@ -110,3 +110,10 @@ body {
     width: 100%;  /* Faire en sorte que le GIF s'ajuste à la largeur de son conteneur */
     height: auto;  /* Laisser la hauteur s'ajuster proportionnellement */
 }
+
+/* === Masquer le GIF sur les écrans mobiles === */
+@media (max-width: 767px) {
+    .gif-container {
+        display: none;
+    }
+}
