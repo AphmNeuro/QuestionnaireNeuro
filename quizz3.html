@@ -122,8 +122,8 @@
     questions.forEach(([titre, opts], i) => {
       const q = document.createElement('div');
       q.className = 'question';
-      q.innerHTML = `<p>${i+1}. ${titre}</p>` +
-        opts.map((txt,j) =>
+      q.innerHTML = `<p>${i + 1}. ${titre}</p>` +
+        opts.map((txt, j) =>
           `<label><input type="radio" name="q${i}" value="${j}"> ${txt}</label>`
         ).join('');
       container.appendChild(q);
@@ -136,15 +136,15 @@
         return;
       }
 
-      let csv = "Identifiant;Numéro;Question;Réponse\n";
+      let csv = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
       questions.forEach(([titre], i) => {
         const rads = document.getElementsByName(`q${i}`);
         let sel = "Non répondu";
         rads.forEach(r => { if (r.checked) sel = r.value; });
-        csv += `"${id}";"${i+1}";"${titre}";"${sel}"\n`;
+        csv += `"${i + 1}";"${titre}";"${sel}"\n`;
       });
 
-      const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `${id}_BDI-II_resultats.csv`;
