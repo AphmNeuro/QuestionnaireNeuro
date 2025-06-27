@@ -116,7 +116,7 @@
 
     <div class="instruction">
         <h2>Instructions</h2>
-        <p><strong>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé. Si vous êtes Tout à fait d'accord avec l'affirmation encerclez le chiffre 1, si vous êtes Plutôt d'accord encerclez le chiffre 2, si vous êtes Plutôt en désaccord encerclez le chiffre 3 et si vous êtes Tout à fait en désaccord encerclez le chiffre 4. Assurez-vous que vous avez indiqué votre accord ou désaccord pour chaque énoncé ci-dessous.</strong></p>
+        <p><strong>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé. Si vous êtes Tout à fait d'accord avec l'affirmation, sélectionnez le chiffre 1, si vous êtes Plutôt d'accord le chiffre 2, si vous êtes Plutôt en désaccord le chiffre 3, et si vous êtes Tout à fait en désaccord le chiffre 4.</strong></p>
     </div>
 
     <form id="uppsForm">
@@ -172,20 +172,20 @@
                 return;
             }
 
-            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
             questions.forEach((q, i) => {
                 const radios = document.getElementsByName(`q${i}`);
                 let selected = "Non répondu";
                 radios.forEach(r => { if (r.checked) selected = r.value; });
 
-                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+                csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
             });
 
             const BOM = "\uFEFF";
             const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "UPPS-P_resultats.csv";
+            link.download = `${id}_UPPS-P_resultats.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
