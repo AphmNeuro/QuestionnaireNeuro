@@ -8,7 +8,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 30px;
-            background-color: #54A9AE; /* Fond bleu */
+            background-color: #54A9AE;
             text-align: center;
             color: #2c3e50;
         }
@@ -191,14 +191,13 @@
                 return;
             }
 
-            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
             allQuestions.forEach((group, groupIndex) => {
                 group.forEach((question, questionIndex) => {
                     const radios = document.getElementsByName(`q${groupIndex}-${questionIndex}`);
                     let selected = "Non répondu";
                     radios.forEach(r => { if (r.checked) selected = r.value; });
-
-                    csvContent += `"${id}";"${groupIndex + 1}-${questionIndex + 1}";"${question}";"${selected}"\n`;
+                    csvContent += `"${groupIndex + 1}-${questionIndex + 1}";"${question}";"${selected}"\n`;
                 });
             });
 
@@ -206,7 +205,7 @@
             const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "PAS_resultats.csv";
+            link.download = `${id}_PAS_resultats.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
