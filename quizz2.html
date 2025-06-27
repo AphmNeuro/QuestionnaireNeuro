@@ -8,7 +8,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 30px;
-            background-color: #54A9AE; /* Fond bleu */
+            background-color: #54A9AE;
             text-align: center;
             color: #2c3e50;
         }
@@ -58,13 +58,8 @@
         }
 
         .question-block:hover {
-            transform: scale(1.01); /* Effet de survol */
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
-        }
-
-        .question-block h3 {
-            margin-top: 0;
-            color: #34495e;
+            transform: scale(1.01);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
         .sub-question {
@@ -117,9 +112,8 @@
 
     <div class="instruction">
         <h2>Instructions</h2>
-        <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 6.</strong></p>
-        <p><strong>Nous vous prions de baser votre réponse sur la façon dont vous-mêmes réagissez et non sur la façon dont les autres réagissent ou vous pensez devoir réagir.</strong></p>
-        <p><strong>1. Jamais 2. Presque jamais 3. Occasionnellement 4. Habituellement 5. Presque toujours </strong></p>
+        <p><strong>Les questions suivantes concernent votre qualité de vie. Veuillez répondre selon la fréquence à laquelle vous avez été concerné(e) durant les derniers jours.</strong></p>
+        <p><strong>1. Jamais 2. Presque jamais 3. Occasionnellement 4. Habituellement 5. Presque toujours</strong></p>
     </div>
 
     <form id="quizForm">
@@ -158,7 +152,7 @@
             "Avez-vous eu des problèmes dans vos relations avec vos proches ?",
             "Avez-vous manqué de soutien dont vous aviez besoin de la part de votre époux(se) ou conjoint(e) ?",
             "Avez-vous manqué de soutien dont vous aviez besoin de la part de votre famille ou de vos ami(e)s ?",
-            "Vous êtes-vous endormi(e) dans la journée de façon innatendue ?",
+            "Vous êtes-vous endormi(e) dans la journée de façon inattendue ?",
             "Avez-vous eu des problèmes de concentration, par exemple en lisant ou devant la télévision ?",
             "Avez-vous senti que votre mémoire était mauvaise ?",
             "Avez-vous fait de mauvais rêves ou eu des hallucinations ?",
@@ -175,11 +169,11 @@
             const div = document.createElement('div');
             div.classList.add('question-block');
             div.innerHTML = `<p>${i + 1}. ${q}</p>
-                <label><input type="radio" name="q${i}" value="Jamais"> Jamais</label>
-                <label><input type="radio" name="q${i}" value="Rarement"> Rarement</label>
-                <label><input type="radio" name="q${i}" value="Parfois"> Parfois</label>
-                <label><input type="radio" name="q${i}" value="Souvent"> Souvent</label>
-                <label><input type="radio" name="q${i}" value="Toujours"> Toujours</label>`;
+                <label><input type="radio" name="q${i}" value="1"> Jamais</label>
+                <label><input type="radio" name="q${i}" value="2"> Presque jamais</label>
+                <label><input type="radio" name="q${i}" value="3"> Occasionnellement</label>
+                <label><input type="radio" name="q${i}" value="4"> Habituellement</label>
+                <label><input type="radio" name="q${i}" value="5"> Presque toujours</label>`;
             container.appendChild(div);
         });
 
@@ -190,20 +184,20 @@
                 return;
             }
 
-            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+            let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
             questions.forEach((q, i) => {
                 const radios = document.getElementsByName(`q${i}`);
                 let selected = "Non répondu";
                 radios.forEach(r => { if (r.checked) selected = r.value; });
 
-                csvContent += `"${id}";"${i + 1}";"${q}";"${selected}"\n`;
+                csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
             });
 
             const BOM = "\uFEFF";
             const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "PDQ39_resultats.csv";
+            link.download = `${id}_PDQ39_resultats.csv`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
