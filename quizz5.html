@@ -155,14 +155,14 @@
         return;
       }
 
-      let csvContent = "Identifiant;Numéro;Question;Réponse\n";
+      let csvContent = `Identifiant;${patientId}\n\nNuméro;Question;Réponse\n`;
       items.forEach((q, i) => {
         const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
 
         const questionEscaped = q.replace(/"/g, '""');
-        csvContent += `"${patientId}";"${i + 1}";"${questionEscaped}";"${selected}"\n`;
+        csvContent += `"${i + 1}";"${questionEscaped}";"${selected}"\n`;
       });
 
       const BOM = "\uFEFF";
