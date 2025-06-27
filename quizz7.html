@@ -127,7 +127,6 @@
           <label><input type="checkbox" name="autres_traitements" value="Anxiolytique"> Anxiolytique</label>
         </div>
 
-        <!-- Ajout des nouvelles questions -->
         <label for="dopa">DOPA (ON/OFF) :</label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="dopa" value="ON"> ON</label>
@@ -149,6 +148,11 @@
   </div>
 
   <script>
+    function getCheckboxValue(name) {
+      const selected = Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+      return selected.length > 0 ? selected.join(", ") : "Non répondu";
+    }
+
     function generateCSV() {
       const form = document.getElementById("parkinsonForm");
       const identifiant = form.identifiant.value.trim();
@@ -156,20 +160,21 @@
         alert("Veuillez renseigner l'identifiant patient.");
         return;
       }
+
       const data = {
         Identifiant: identifiant,
-        Age: form.age.value,
-        Sexe: form.sexe.value,
-        Annee_diagnostic: form.annee_diag.value,
-        Premier_cote: form.hemicorps.value,
-        Forme_tremblante: form.forme_tremblante.value,
-        Score_HY: form.score_hy.value,
-        Date_traitement: form.date_traitement.value,
-        Traitements: Array.from(form.querySelectorAll('input[name="traitements"]:checked')).map(el => el.value).join(", "),
-        Autres_traitements: Array.from(form.querySelectorAll('input[name="autres_traitements"]:checked')).map(el => el.value).join(", "),
-        Dopa: form.dopa.checked ? form.dopa.value : "Non répondu",
-        Stim: form.stim.checked ? form.stim.value : "Non répondu",
-        Moca_Score: form.moca_score.value
+        Age: form.age.value || "Non répondu",
+        Sexe: form.sexe.value || "Non répondu",
+        Annee_diagnostic: form.annee_diag.value || "Non répondu",
+        Premier_cote: form.hemicorps.value || "Non répondu",
+        Forme_tremblante: form.forme_tremblante.value || "Non répondu",
+        Score_HY: form.score_hy.value || "Non répondu",
+        Date_traitement: form.date_traitement.value || "Non répondu",
+        Traitements: getCheckboxValue("traitements"),
+        Autres_traitements: getCheckboxValue("autres_traitements"),
+        DOPA: getCheckboxValue("dopa"),
+        STIM: getCheckboxValue("stim"),
+        Moca_Score: form.moca_score.value || "Non répondu"
       };
 
       let csv = "Variable;Valeur\n";
