@@ -1,229 +1,84 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Questionnaire QUIP-RS</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 30px;
-            background-color: #54A9AE;
-            text-align: center;
-            color: #2c3e50;
-        }
+<script>
+    const domains = [
+        "Jeu",
+        "Sexe",
+        "Achats compulsifs",
+        "Manger",
+        "Exécuter des tâches ou pratiquer des passe-temps",
+        "Répéter des activités simples",
+        "Prendre vos médicaments contre la MP"
+    ];
 
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            color: #2c3e50;
-        }
+    const blocks = [
+        "1. À quel point pensez-vous aux comportements suivants (comme la difficulté à garder des pensées hors de votre esprit ou vous sentir coupable) ?",
+        "2. Avez-vous des pulsions ou des désirs pour les comportements suivants que vous jugez excessifs ou qui vous causent de la détresse (y compris devenir agité ou irritable lorsque vous ne pouvez pas vous y adonner) ?",
+        "3. Avez-vous de la difficulté à contrôler les comportements suivants ci-dessous (par exemple, les augmenter au fil du temps, ou avoir de la difficulté à les réduire ou les arrêter) ?",
+        "4. Vous livrez-vous à des activités expressément pour poursuivre les comportements suivants (par exemple, cacher ce que vous faites, mentir, accumuler des choses, emprunter aux autres, accumuler des dettes, voler ou participer à des actes illicites) ?"
+    ];
 
-        .identifiant {
-            background: #e0e0e0;
-            padding: 15px 25px;
-            border-radius: 12px;
-            text-align: left;
-            max-width: 900px;
-            margin: 0 auto 30px;
-        }
+    const container = document.getElementById('questions');
+    let globalIndex = 0;
 
-        .identifiant label { font-weight: bold; }
-        .identifiant input {
-            width: 300px;
-            padding: 8px;
-            margin-top: 5px;
-        }
+    blocks.forEach((blockTitle, blockIdx) => {
+        const blockDiv = document.createElement('div');
+        blockDiv.classList.add('question-block');
 
-        .instruction {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 25px 30px;
-            margin: 30px auto;
-            max-width: 900px;
-            text-align: left;
-        }
+        const blockHeader = document.createElement('h3');
+        blockHeader.textContent = blockTitle;
+        blockDiv.appendChild(blockHeader);
 
-        .question-block {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px 30px;
-            margin: 40px auto;
-            max-width: 900px;
-            text-align: left;
-            transition: transform 0.2s ease;
-        }
-
-        .question-block:hover {
-            transform: scale(1.01);
-        }
-
-        .question-block h3 {
-            margin-top: 0;
-            color: #34495e;
-        }
-
-        .sub-question {
-            margin-left: 10px;
-            margin-bottom: 25px;
-        }
-
-        .sub-question p {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        label {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        input[type="radio"] {
-            margin-right: 6px;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 30px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-    </style>
-</head>
-<body>
-    <h1>Questionnaire QUIP-RS</h1>
-
-    <div class="identifiant">
-        <label for="identifiant">Identifiant Patient :</label>
-        <input type="text" id="identifiant" placeholder="Ex : ABC456">
-    </div>
-
-    <div class="instruction">
-        <h2>Feuille d'instructions</h2>
-        <p><strong>PÉRIODE D'ÉVALUATION</strong><br>
-        Les quatre dernières semaines ou toute période de quatre semaines dans un cadre temporel désigné.</p>
-
-        <p><strong>DESCRIPTION DES COMPORTEMENTS</strong></p>
-        <ul>
-            <li><strong>A. Jeu</strong> : casinos, jeux en ligne, loteries, billets à gratter, paris, machines à sous ou poker.</li>
-            <li><strong>B. Sexe</strong> : exigences sexuelles envers autrui, promiscuité, prostitution, changement d'orientation sexuelle, masturbation, activités sexuelles par internet ou téléphone, ou pornographie.</li>
-            <li><strong>C. Achats compulsifs</strong> : achat excessif de la même chose ou d'objets inutiles.</li>
-            <li><strong>D. Manger</strong> : consommation de plus grandes quantités ou de types différents de nourriture qu'auparavant, plus rapidement que la normale, à des moments inhabituels (comme manger la nuit), jusqu'à se sentir inconfortablement rassasié, ou lorsque vous n'avez pas faim.</li>
-            <li><strong>E. Passe-temps compulsifs</strong> : activités spécifiques, passe-temps ou autres activités organisées, telles que l'écriture, la peinture, le jardinage, la réparation ou le démontage d'objets, la collection, l'utilisation d'ordinateurs, le travail sur des projets, etc.</li>
-            <li><strong>F. Gestes répétitifs</strong> : répétition de certaines activités motrices simples, telles que le nettoyage, le rangement, la manipulation, l'examen, le tri, l'organisation, la collecte, l'accumulation ou l'agencement d'objets, etc.</li>
-            <li><strong>G. Prise de médicaments contre la MP</strong> : prise systématique de doses excessives de médicaments contre la maladie de Parkinson, ou augmentation autonome, sans avis médical, de la prise globale de médicaments contre la MP.</li>
-        </ul>
-
-        <p><strong>FRÉQUENCE DES COMPORTEMENTS</strong></p>
-        <ul>
-            <li><strong>Jamais (0)</strong> : pas du tout.</li>
-            <li><strong>Rarement (1)</strong> : peu fréquemment ou 1 jour/semaine.</li>
-            <li><strong>Parfois (2)</strong> : par moments ou 2-3 jours/semaine.</li>
-            <li><strong>Souvent (3)</strong> : la plupart du temps ou 4-5 jours/semaine.</li>
-            <li><strong>Très souvent (4)</strong> : presque toujours ou 6-7 jours/semaine.</li>
-        </ul>
-    </div>
-
-    <form id="quipForm">
-        <div id="questions"></div>
-        <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
-    </form>
-
-    <script>
-        const domains = [
-            "Jeu",
-            "Sexe",
-            "Achats compulsifs",
-            "Manger",
-            "Exécuter des tâches ou pratiquer des passe-temps",
-            "Répéter des activités simples",
-            "Prendre vos médicaments contre la MP"
-        ];
-
-        const blocks = [
-            "1. À quel point pensez-vous aux comportements suivants (comme la difficulté à garder des pensées hors de votre esprit ou vous sentir coupable) ?",
-            "2. Avez-vous des pulsions ou des désirs pour les comportements suivants que vous jugez excessifs ou qui vous causent de la détresse (y compris devenir agité ou irritable lorsque vous ne pouvez pas vous y adonner) ?",
-            "3. Avez-vous de la difficulté à contrôler les comportements suivants ci-dessous (par exemple, les augmenter au fil du temps, ou avoir de la difficulté à les réduire ou les arrêter) ?",
-            "4. Vous livrez-vous à des activités expressément pour poursuivre les comportements suivants (par exemple, cacher ce que vous faites, mentir, accumuler des choses, emprunter aux autres, accumuler des dettes, voler ou participer à des actes illicites) ?"
-        ];
-
-        const container = document.getElementById('questions');
-        let globalIndex = 0;
-
-        blocks.forEach((blockTitle, blockIdx) => {
-            const blockDiv = document.createElement('div');
-            blockDiv.classList.add('question-block');
-
-            const blockHeader = document.createElement('h3');
-            blockHeader.textContent = blockTitle;
-            blockDiv.appendChild(blockHeader);
-
-            domains.forEach((domain, domainIdx) => {
-                const questionId = `q${globalIndex}`;
-                const questionText = `${blockTitle.split(" ")[0]} - ${domain}`;
-                const subDiv = document.createElement('div');
-                subDiv.classList.add('sub-question');
-                subDiv.innerHTML = `<p>${questionText}</p>
-                    <label><input type="radio" name="${questionId}" value="0"> Jamais (0)</label>
-                    <label><input type="radio" name="${questionId}" value="1"> Rarement (1)</label>
-                    <label><input type="radio" name="${questionId}" value="2"> Parfois (2)</label>
-                    <label><input type="radio" name="${questionId}" value="3"> Souvent (3)</label>
-                    <label><input type="radio" name="${questionId}" value="4"> Très souvent (4)</label>`;
-                blockDiv.appendChild(subDiv);
-                globalIndex++;
-            });
-
-            container.appendChild(blockDiv);
+        domains.forEach((domain, domainIdx) => {
+            const questionId = `q${globalIndex}`;
+            const questionText = `${blockTitle.split(" ")[0]} - ${domain}`;
+            const subDiv = document.createElement('div');
+            subDiv.classList.add('sub-question');
+            subDiv.innerHTML = `<p>${questionText}</p>
+                <label><input type="radio" name="${questionId}" value="0"> Jamais (0)</label>
+                <label><input type="radio" name="${questionId}" value="1"> Rarement (1)</label>
+                <label><input type="radio" name="${questionId}" value="2"> Parfois (2)</label>
+                <label><input type="radio" name="${questionId}" value="3"> Souvent (3)</label>
+                <label><input type="radio" name="${questionId}" value="4"> Très souvent (4)</label>`;
+            blockDiv.appendChild(subDiv);
+            globalIndex++;
         });
 
-        function generateCSV() {
-            const id = document.getElementById("identifiant").value.trim();
-            if (!id) {
-                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
-                return;
-            }
+        container.appendChild(blockDiv);
+    });
 
-            let csvContent = "Identifiant;Numéro;Question;Réponse\n";
-            let idx = 0;
-
-            blocks.forEach((blockTitle, blockIdx) => {
-                domains.forEach((domain, domainIdx) => {
-                    const questionId = `q${idx}`;
-                    const radios = document.getElementsByName(questionId);
-                    let selected = "Non répondu";
-                    radios.forEach(r => { if (r.checked) selected = r.nextSibling.textContent.trim(); });
-
-                    const questionLabel = `${blockTitle.split(" ")[0]} - ${domain}`;
-                    csvContent += `"${id}";"${idx + 1}";"${questionLabel}";"${selected}"\n`;
-                    idx++;
-                });
-            });
-
-            const BOM = "\uFEFF";
-            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "QUIP-RS_resultats.csv";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    function generateCSV() {
+        const id = document.getElementById("identifiant").value.trim();
+        if (!id) {
+            alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+            return;
         }
-    </script>
-</body>
-</html>
+
+        let csvContent = `Identifiant:;${id}\n`;
+        csvContent += "Numéro;Question;Réponse\n";
+        let idx = 0;
+
+        blocks.forEach((blockTitle, blockIdx) => {
+            domains.forEach((domain, domainIdx) => {
+                const questionId = `q${idx}`;
+                const radios = document.getElementsByName(questionId);
+                let selected = "Non répondu";
+
+                radios.forEach(r => {
+                    if (r.checked) selected = r.value;
+                });
+
+                const questionLabel = `${blockTitle.split(" ")[0]} - ${domain}`;
+                csvContent += `"${idx + 1}";"${questionLabel}";"${selected}"\n`;
+                idx++;
+            });
+        });
+
+        const BOM = "\uFEFF";
+        const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${id}_QUIP-RS_resultats.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
