@@ -20,6 +20,25 @@
             color: #2c3e50;
         }
 
+        .retour {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 14px;
+        }
+
+        .retour a {
+            color: black;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .retour a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
         .identifiant {
             background: #e0e0e0;
             padding: 15px 25px;
@@ -29,7 +48,10 @@
             margin: 0 auto 30px;
         }
 
-        .identifiant label { font-weight: bold; }
+        .identifiant label {
+            font-weight: bold;
+        }
+
         .identifiant input {
             width: 300px;
             padding: 8px;
@@ -39,7 +61,7 @@
         .instruction {
             background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 25px 30px;
             margin: 30px auto;
             max-width: 900px;
@@ -62,20 +84,8 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
-        .sub-question {
-            margin-left: 10px;
-            margin-bottom: 25px;
-        }
-
-        .sub-question p {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
         label {
-            display: inline-block;
-            margin-right: 15px;
+            display: block;
             margin-bottom: 5px;
             cursor: pointer;
             font-size: 15px;
@@ -103,6 +113,7 @@
     </style>
 </head>
 <body>
+    <div class="retour"><a href="index.html">← Retour</a></div>
     <h1>Questionnaire PDQ-39</h1>
 
     <div class="identifiant">
@@ -112,8 +123,8 @@
 
     <div class="instruction">
         <h2>Instructions</h2>
-        <p><strong>Les questions suivantes concernent votre qualité de vie. Veuillez répondre selon la fréquence à laquelle vous avez été concerné(e) durant les derniers jours.</strong></p>
-        <p><strong>1. Jamais 2. Presque jamais 3. Occasionnellement 4. Habituellement 5. Presque toujours</strong></p>
+        <p><strong>Les questions suivantes concernent votre qualité de vie. À cause de la maladie de Parkinson, à quelle fréquence avez-vous vécu les situations suivantes au cours du mois précédent ?</strong></p>
+        <p><strong>Réponses possibles : Jamais, Rarement, Parfois, Souvent, Toujours (ou ne peut jamais le faire)</strong></p>
     </div>
 
     <form id="quizForm">
@@ -170,10 +181,10 @@
             div.classList.add('question-block');
             div.innerHTML = `<p>${i + 1}. ${q}</p>
                 <label><input type="radio" name="q${i}" value="1"> Jamais</label>
-                <label><input type="radio" name="q${i}" value="2"> Presque jamais</label>
-                <label><input type="radio" name="q${i}" value="3"> Occasionnellement</label>
-                <label><input type="radio" name="q${i}" value="4"> Habituellement</label>
-                <label><input type="radio" name="q${i}" value="5"> Presque toujours</label>`;
+                <label><input type="radio" name="q${i}" value="2"> Rarement</label>
+                <label><input type="radio" name="q${i}" value="3"> Parfois</label>
+                <label><input type="radio" name="q${i}" value="4"> Souvent</label>
+                <label><input type="radio" name="q${i}" value="5"> Toujours (ou ne peut jamais le faire)</label>`;
             container.appendChild(div);
         });
 
@@ -189,7 +200,6 @@
                 const radios = document.getElementsByName(`q${i}`);
                 let selected = "Non répondu";
                 radios.forEach(r => { if (r.checked) selected = r.value; });
-
                 csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
             });
 
