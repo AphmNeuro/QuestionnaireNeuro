@@ -20,25 +20,6 @@
             color: #2c3e50;
         }
 
-        .retour {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-size: 14px;
-        }
-
-        .retour a {
-            color: black;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .retour a:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
         .identifiant {
             background: #e0e0e0;
             padding: 15px 25px;
@@ -61,7 +42,7 @@
         .instruction {
             background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             padding: 25px 30px;
             margin: 30px auto;
             max-width: 900px;
@@ -110,10 +91,33 @@
         button:hover {
             background-color: #2980b9;
         }
+
+        .retour {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .retour a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #2c3e50;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .retour a:hover {
+            background-color: #1a242f;
+        }
     </style>
 </head>
 <body>
-    <div class="retour"><a href="index.html">← Retour</a></div>
+    <div class="retour">
+        <a href="index.html">← Retour</a>
+    </div>
+
     <h1>Questionnaire PDQ-39</h1>
 
     <div class="identifiant">
@@ -124,7 +128,7 @@
     <div class="instruction">
         <h2>Instructions</h2>
         <p><strong>Les questions suivantes concernent votre qualité de vie. À cause de la maladie de Parkinson, à quelle fréquence avez-vous vécu les situations suivantes au cours du mois précédent ?</strong></p>
-        <p><strong>Réponses possibles : Jamais, Rarement, Parfois, Souvent, Toujours (ou ne peut jamais le faire)</strong></p>
+        <p><strong>1. Jamais 2. Rarement 3. Parfois 4. Souvent 5. Toujours (ou ne peut jamais le faire)</strong></p>
     </div>
 
     <form id="quizForm">
@@ -200,6 +204,7 @@
                 const radios = document.getElementsByName(`q${i}`);
                 let selected = "Non répondu";
                 radios.forEach(r => { if (r.checked) selected = r.value; });
+
                 csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
             });
 
