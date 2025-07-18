@@ -20,16 +20,39 @@
       color: #2c3e50;
     }
 
+    .retour {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .retour a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #2c3e50;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .retour a:hover {
+      background-color: #1a242f;
+    }
+
     .identifiant {
       background: #e0e0e0;
       padding: 15px 25px;
       border-radius: 12px;
       text-align: left;
       max-width: 900px;
-      margin: 0 auto 30px;
+      margin: 70px auto 30px;
     }
 
-    .identifiant label { font-weight: bold; }
+    .identifiant label {
+      font-weight: bold;
+    }
+
     .identifiant input {
       width: 300px;
       padding: 8px;
@@ -61,9 +84,9 @@
       transform: scale(1.01);
     }
 
-    .question-block h3 {
-      margin-top: 0;
-      color: #34495e;
+    .question-block p {
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     label {
@@ -85,7 +108,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
-      margin: 30px 10px 0 10px;
+      margin-top: 30px;
       transition: background-color 0.3s ease;
     }
 
@@ -95,6 +118,10 @@
   </style>
 </head>
 <body>
+  <div class="retour">
+    <a href="index.html">← Retour</a>
+  </div>
+
   <h1>Questionnaire RIPoSt-40</h1>
 
   <div class="identifiant">
@@ -104,26 +131,16 @@
 
   <div class="instruction">
     <h2>Instructions</h2>
-    <p>Les questions suivantes évaluent les réactions émotionnelles de chaque personne face aux évènements de la vie. 
+    <p>Les questions suivantes évaluent les réactions émotionnelles de chaque personne face aux évènements de la vie.
     Veuillez baser chacune de vos réponses sur votre propre réaction personnelle, et non sur celle des autres ou sur celle que vous pensez que les autres devraient avoir.</p>
   </div>
 
   <form id="ripostForm">
     <div id="questions"></div>
-    <button type="button" onclick="window.history.back()">← Retour</button>
     <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
   </form>
 
   <script>
-    const reponses = [
-      "Jamais",
-      "Presque jamais",
-      "Occasionnellement",
-      "Habituellement",
-      "Presque toujours",
-      "Toujours"
-    ];
-
     const questions = [
       "J’ai des réactions émotionnelles rapides, brutales, à la limite impulsives.",
       "J’ai souvent des réactions émotives pour des événements qui n’en valent pas la peine.",
@@ -158,7 +175,7 @@
       "Je me sens souvent triste pendant quelques jours puis radieux et de bonne humeur.",
       "Je peux ressentir les choses de façon très vive ou au contraire très terne.",
       "Je prends grand plaisir à d'autres personnes puis m'en désintéresse totalement.",
-      "J'ai des périodes de pessimisme où j’oublie mes moments d’optimisme et d’enthousiasme.",
+      "J'ai des périodes de pessimisme où j'oublie mes moments d'optimisme et d'enthousiasme.",
       "Je peux être triste et gai en même temps.",
       "D'un jour à l'autre, je peux être sociable, 'boute en train' ou isolé, seul dans mon coin.",
       "J’ai l’impression que mes émotions forment des cycles avec des hauts et des bas.",
@@ -167,14 +184,23 @@
       "Je suis tellement instable que je n’arrive pas à faire des projets sur du long terme."
     ];
 
-    const container = document.getElementById('questions');
-    questions.forEach((question, index) => {
-      const div = document.createElement('div');
-      div.classList.add('question-block');
-      div.innerHTML = `
-        <h3>${index + 1}. ${question}</h3>` +
-        reponses.map((label, val) => `
-          <label><input type="radio" name="q${index}" value="${val + 1}"> ${label}</label>`).join("");
+    const labels = [
+      "Jamais",
+      "Presque jamais",
+      "Occasionnellement",
+      "Habituellement",
+      "Presque toujours",
+      "Toujours"
+    ];
+
+    const container = document.getElementById("questions");
+    questions.forEach((text, index) => {
+      const div = document.createElement("div");
+      div.classList.add("question-block");
+      div.innerHTML = `<p>${index + 1}. ${text}</p>` +
+        labels.map((label, val) =>
+          `<label><input type="radio" name="q${index}" value="${val + 1}">${label}</label>`
+        ).join("");
       container.appendChild(div);
     });
 
@@ -185,12 +211,12 @@
         return;
       }
 
-      let csvContent = `Identifiant;${id}\nNuméro;Question;Réponse\n`;
-      questions.forEach((question, index) => {
-        const radios = document.getElementsByName(`q${index}`);
+      let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
+      questions.forEach((q, i) => {
+        const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
-        csvContent += `"${index + 1}";"${question}";"${selected}"\n`;
+        csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
       });
 
       const BOM = "\uFEFF";
