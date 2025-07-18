@@ -1,195 +1,212 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Questionnaire UPPS-P</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 30px;
-            background-color: #54A9AE;
-            text-align: center;
-            color: #2c3e50;
-        }
+  <meta charset="UTF-8">
+  <title>Questionnaire UPPS-P</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: #54A9AE;
+      text-align: center;
+      color: #2c3e50;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            color: #2c3e50;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 32px;
+      color: #2c3e50;
+    }
 
-        .identifiant {
-            background: #e0e0e0;
-            padding: 15px 25px;
-            border-radius: 12px;
-            text-align: left;
-            max-width: 900px;
-            margin: 0 auto 30px;
-        }
+    .retour {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
 
-        .identifiant label { font-weight: bold; }
-        .identifiant input {
-            width: 300px;
-            padding: 8px;
-            margin-top: 5px;
-        }
+    .retour a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #2c3e50;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
 
-        .instruction {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 25px 30px;
-            margin: 30px auto;
-            max-width: 900px;
-            text-align: left;
-        }
+    .retour a:hover {
+      background-color: #1a242f;
+    }
 
-        .question-block {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px 30px;
-            margin: 40px auto;
-            max-width: 900px;
-            text-align: left;
-            transition: transform 0.2s ease;
-        }
+    .identifiant {
+      background: #e0e0e0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      text-align: left;
+      max-width: 900px;
+      margin: 0 auto 30px;
+    }
 
-        .question-block:hover {
-            transform: scale(1.01);
-        }
+    .identifiant label { font-weight: bold; }
+    .identifiant input {
+      width: 300px;
+      padding: 8px;
+      margin-top: 5px;
+    }
 
-        .question-block h3 {
-            margin-top: 0;
-            color: #34495e;
-        }
+    .instruction {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px 30px;
+      margin: 30px auto;
+      max-width: 900px;
+      text-align: left;
+    }
 
-        .sub-question {
-            margin-left: 10px;
-            margin-bottom: 25px;
-        }
+    .question-block {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 25px 30px;
+      margin: 40px auto;
+      max-width: 900px;
+      text-align: left;
+      transition: transform 0.2s ease;
+    }
 
-        .sub-question p {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
+    .question-block:hover {
+      transform: scale(1.01);
+    }
 
-        label {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
+    .question-block h3 {
+      margin-top: 0;
+      color: #34495e;
+    }
 
-        input[type="radio"] {
-            margin-right: 6px;
-        }
+    .sub-question {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 30px;
-            transition: background-color 0.3s ease;
-        }
+    label {
+      display: block;
+      cursor: pointer;
+      font-size: 15px;
+    }
 
-        button:hover {
-            background-color: #2980b9;
-        }
-    </style>
+    input[type="radio"] {
+      margin-right: 6px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
 </head>
 <body>
-    <h1>Questionnaire UPPS-P</h1>
+  <div class="retour">
+    <a href="index.html">← Retour</a>
+  </div>
 
-    <div class="identifiant">
-        <label for="identifiant">Identifiant Patient :</label>
-        <input type="text" id="identifiant" placeholder="Ex : ABC456">
-    </div>
+  <h1>Questionnaire UPPS-P</h1>
 
-    <div class="instruction">
-        <h2>Instructions</h2>
-        <p><strong>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé. Si vous êtes Tout à fait d'accord avec l'affirmation, sélectionnez le chiffre 1, si vous êtes Plutôt d'accord le chiffre 2, si vous êtes Plutôt en désaccord le chiffre 3, et si vous êtes Tout à fait en désaccord le chiffre 4.</strong></p>
-    </div>
+  <div class="identifiant">
+    <label for="identifiant">Identifiant Patient :</label>
+    <input type="text" id="identifiant" placeholder="Ex : ABC456">
+  </div>
 
-    <form id="uppsForm">
-        <div id="questions"></div>
-        <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
-    </form>
+  <div class="instruction">
+    <h2>Instructions</h2>
+    <p><strong>Vous trouverez ci-dessous un certain nombre d'énoncés décrivant des manières de se comporter ou de penser. Pour chaque affirmation, veuillez indiquer à quel degré vous êtes d'accord ou non avec l'énoncé. Si vous êtes Tout à fait d'accord avec l'affirmation, sélectionnez le chiffre 1, si vous êtes Plutôt d'accord le chiffre 2, si vous êtes Plutôt en désaccord le chiffre 3, et si vous êtes Tout à fait en désaccord le chiffre 4.</strong></p>
+  </div>
 
-    <script>
-        const questions = [
-            "Quand je suis vraiment enthousiaste, j’agis sans réfléchir aux conséquences.",
-            "Je fais des choses impulsivement sans penser aux risques.",
-            "J’ai tendance à agir rapidement sans réfléchir.",
-            "Quand je suis contrarié(e), je réagis impulsivement.",
-            "D’habitude je réfléchis soigneusement avant de faire quoi que ce soit.",
-            "Je préfère toujours bien réfléchir avant de prendre une décision importante.",
-            "Je me concentre souvent sur les avantages et inconvénients avant d’agir.",
-            "Je préfère mener les choses jusqu’au bout.",
-            "Je termine toujours ce que je commence.",
-            "Je me concentre et persévère pour accomplir mes tâches.",
-            "Je recherche fréquemment des expériences nouvelles et excitantes.",
-            "J’éprouve du plaisir à prendre des risques.",
-            "J'aime les défis et les situations nouvelles.",
-            "Quand je suis vraiment enthousiaste, je n'attends pas et je fais immédiatement quelque chose.",
-            "Quand je suis contrarié(e), j’agis immédiatement, sans tenir compte des conséquences.",
-            "Je pense souvent qu'il est trop tard pour revenir en arrière.",
-            "J’ai du mal à attendre ma tournée de café ou ma récréation.",
-            "J’ai du mal à prendre du recul lorsque je suis impliqué dans une tâche.",
-            "J’agis spontanément, sans planifier à l'avance.",
-            "Je trouve que certaines choses me plaisent si vite, que je n'y réfléchis même pas."
-        ];
+  <form id="uppsForm">
+    <div id="questions"></div>
+    <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+  </form>
 
-        const container = document.getElementById('questions');
-        questions.forEach((q, index) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.classList.add('question-block');
-            questionDiv.innerHTML = `
-                <h3>Question ${index + 1}</h3>
-                <p>${q}</p>
-                <div class="sub-question">
-                    <label><input type="radio" name="q${index}" value="1"> 1 - Tout à fait d'accord</label>
-                    <label><input type="radio" name="q${index}" value="2"> 2 - Plutôt d'accord</label>
-                    <label><input type="radio" name="q${index}" value="3"> 3 - Plutôt en désaccord</label>
-                    <label><input type="radio" name="q${index}" value="4"> 4 - Tout à fait en désaccord</label>
-                </div>
-            `;
-            container.appendChild(questionDiv);
-        });
+  <script>
+    const questions = [
+      "D’habitude je réfléchis soigneusement avant de faire quoi que ce soit.",
+      "Quand je suis vraiment enthousiaste, j’ai tendance à ne pas penser aux conséquences de mes actions.",
+      "J’aime parfois faire des choses qui sont un petit peu effrayantes.",
+      "Quand je suis contrarié(e), j’agis souvent sans réfléchir.",
+      "Je préfère généralement mener les choses jusqu’au bout.",
+      "Ma manière de penser est d’habitude réfléchie et méticuleuse.",
+      "Quand la discussion s’échauffe, je dis souvent des choses que je regrette ensuite.",
+      "J’achève ce que je commence.",
+      "J’éprouve du plaisir à prendre des risques.",
+      "Quand je suis ravi(e), je ne peux pas m’empêcher de m’emballer.",
+      "Une fois que je commence un projet, je le termine presque toujours.",
+      "J’aggrave souvent les choses parce que j’agis sans réfléchir quand je suis contrarié(e).",
+      "D’habitude je me décide après un raisonnement bien mûri.",
+      "Je recherche généralement des expériences et sensations nouvelles et excitantes.",
+      "Quand je suis vraiment enthousiaste, j'agis souvent sans réfléchir.",
+      "Je suis une personne productive qui termine toujours son travail.",
+      "Quand je me sens rejeté(e), je dis souvent des choses que je regrette par la suite.",
+      "Je me réjouis des expériences et sensations nouvelles même si elles sont un peu effrayantes et nonconformistes.",
+      "Avant de me décider, je considère tous les avantages et inconvénients.",
+      "Quand je suis très heureux/heureuse, j’ai l’impression qu’il est normal de céder à ses envies ou de se laisser aller à des excès."
+    ];
 
-        function generateCSV() {
-            const id = document.getElementById("identifiant").value.trim();
-            if (!id) {
-                alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
-                return;
-            }
+    const container = document.getElementById('questions');
+    questions.forEach((q, index) => {
+      const questionDiv = document.createElement('div');
+      questionDiv.classList.add('question-block');
+      questionDiv.innerHTML = `
+        <h3>Question ${index + 1}</h3>
+        <p>${q}</p>
+        <div class="sub-question">
+          <label><input type="radio" name="q${index}" value="1"> Tout à fait d'accord</label>
+          <label><input type="radio" name="q${index}" value="2"> Plutôt d'accord</label>
+          <label><input type="radio" name="q${index}" value="3"> Plutôt en désaccord</label>
+          <label><input type="radio" name="q${index}" value="4"> Tout à fait en désaccord</label>
+        </div>
+      `;
+      container.appendChild(questionDiv);
+    });
 
-            let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
-            questions.forEach((q, i) => {
-                const radios = document.getElementsByName(`q${i}`);
-                let selected = "Non répondu";
-                radios.forEach(r => { if (r.checked) selected = r.value; });
+    function generateCSV() {
+      const id = document.getElementById("identifiant").value.trim();
+      if (!id) {
+        alert("Veuillez renseigner l'identifiant patient avant d’exporter.");
+        return;
+      }
 
-                csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
-            });
+      let csvContent = `Identifiant;${id}\n\nNuméro;Question;Réponse\n`;
+      questions.forEach((q, i) => {
+        const radios = document.getElementsByName(`q${i}`);
+        let selected = "Non répondu";
+        radios.forEach(r => { if (r.checked) selected = r.value; });
+        csvContent += `"${i + 1}";"${q}";"${selected}"\n`;
+      });
 
-            const BOM = "\uFEFF";
-            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `${id}_UPPS-P_resultats.csv`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
+      const BOM = "\uFEFF";
+      const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${id}_UPPS-P_resultats.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
 </html>
