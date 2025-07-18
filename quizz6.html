@@ -15,6 +15,23 @@
     h1 {
       margin-bottom: 20px;
     }
+    .retour {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .retour a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #2c3e50;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    .retour a:hover {
+      background-color: #1a242f;
+    }
     .id-block {
       background: #e0e0e0;
       padding: 15px 25px;
@@ -33,6 +50,10 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: left;
     }
+    .instruction h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
     .question {
       background: #ffffff;
       border-radius: 16px;
@@ -49,12 +70,11 @@
       margin-bottom: 10px;
       font-size: 16px;
     }
-    label {
-      display: inline-block;
-      margin-right: 20px;
-      margin-bottom: 5px;
-      cursor: pointer;
+    .choices label {
+      display: block;
+      margin-bottom: 8px;
       font-size: 15px;
+      cursor: pointer;
     }
     input[type="radio"] {
       margin-right: 6px;
@@ -81,6 +101,10 @@
   </style>
 </head>
 <body>
+  <div class="retour">
+    <a href="index.html">← Retour</a>
+  </div>
+
   <h1>Échelle ERS</h1>
 
   <div class="id-block">
@@ -89,15 +113,9 @@
   </div>
 
   <div class="instruction">
+    <h2>Instructions</h2>
     <p>Ce questionnaire s'intéresse à la façon dont vous ressentez régulièrement (par exemple chaque jour) les émotions. Lorsque l'on vous pose des questions sur le fait d'être "ému(e)", ceci renvoie au fait d'être en colère, triste, excité(e) ou à d'autres émotions.</p>
     <p>Veuillez évaluer les propositions suivantes en sélectionnant la réponse qui vous correspond le mieux :</p>
-    <ul>
-      <li><strong>0</strong> — Ne me correspond pas du tout</li>
-      <li><strong>1</strong> — Me correspond un peu</li>
-      <li><strong>2</strong> — Me correspond assez</li>
-      <li><strong>3</strong> — Me correspond beaucoup</li>
-      <li><strong>4</strong> — Me correspond tout à fait</li>
-    </ul>
   </div>
 
   <form id="ersForm">
@@ -130,22 +148,22 @@
       "Les gens disent que je réagis de manière excessive."
     ];
 
-    const reponses = [
-      "0 — Ne me correspond pas du tout",
-      "1 — Me correspond un peu",
-      "2 — Me correspond assez",
-      "3 — Me correspond beaucoup",
-      "4 — Me correspond tout à fait"
+    const labels = [
+      "Ne me correspond pas du tout",
+      "Me correspond un peu",
+      "Me correspond assez",
+      "Me correspond beaucoup",
+      "Me correspond tout à fait"
     ];
 
     const container = document.getElementById("questions");
-
     items.forEach((text, index) => {
       const div = document.createElement("div");
       div.classList.add("question");
-      div.innerHTML = `<p>${index + 1}. ${text}</p>` +
-        reponses.map((rep, val) => `
-          <label><input type="radio" name="q${index}" value="${val}"> ${rep}</label>`).join("");
+      div.innerHTML = `<p>${index + 1}. ${text}</p><div class="choices">` +
+        labels.map((label, val) => `
+          <label><input type="radio" name="q${index}" value="${val}"> ${label}</label>`
+        ).join("") + `</div>`;
       container.appendChild(div);
     });
 
