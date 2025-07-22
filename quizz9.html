@@ -16,13 +16,30 @@
       font-size: 28px;
       margin-bottom: 20px;
     }
+    .retour {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .retour a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #2c3e50;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    .retour a:hover {
+      background-color: #1a242f;
+    }
     .identifiant {
       background: #e0e0e0;
       padding: 15px 25px;
       border-radius: 12px;
       text-align: left;
       max-width: 900px;
-      margin: 0 auto 30px;
+      margin: 60px auto 30px;
     }
     .identifiant label { font-weight: bold; }
     .identifiant input {
@@ -52,14 +69,9 @@
     .question-block:hover {
       transform: scale(1.01);
     }
-    .question-block h3 {
-      margin-top: 0;
-      color: #34495e;
-    }
     label {
-      display: inline-block;
-      margin-right: 15px;
-      margin-bottom: 5px;
+      display: block;
+      margin: 5px 0;
       cursor: pointer;
       font-size: 15px;
     }
@@ -83,17 +95,24 @@
   </style>
 </head>
 <body>
+  <div class="retour">
+    <a href="index.html">← Retour</a>
+  </div>
+
   <h1>Échelle de Labilité Émotionnelle (CNS-LS)</h1>
+
   <div class="identifiant">
     <label for="identifiant">Identifiant Patient :</label>
     <input type="text" id="identifiant" placeholder="Ex : ABC456">
   </div>
+
   <div class="instruction">
     <h2>Instructions</h2>
     <p><strong>Les questions suivantes concernent les réactions émotionnelles aux événements de la vie. Nous vous invitons à préciser comment vous réagissez aux événements en choisissant un nombre de 1 à 5.</strong></p>
     <p><strong>Nous vous prions de baser votre réponse sur la façon dont vous-mêmes réagissez et non sur la façon dont les autres réagissent ou vous pensez devoir réagir.</strong></p>
-    <p><strong>1. Jamais 2. Rarement 3. Parfois 4. Fréquemment 5. La plupart du temps</strong></p>
+    <p><strong>1. Jamais 2. Rarement 3. Parfois 4. Fréquemment 5. La plupart du temps</strong></p>
   </div>
+
   <form id="cnsForm">
     <div id="questions"></div>
     <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
@@ -101,24 +120,31 @@
 
   <script>
     const questions = [
-      "Il m'arrive de me sentir bien un instant, puis de devenir larmoyant sans raison apparente.",
-      "Les autres me disent que je ris facilement ou que je trouve des choses drôles qui ne le sont pas vraiment.",
-      "Je me mets à pleurer très facilement.",
-      "Même lorsque j'essaie de contrôler mes rires, je n'y parviens pas souvent.",
-      "Il m'arrive de ne penser à rien de joyeux ou amusant, puis d'être soudainement envahi par des pensées joyeuses.",
-      "Même lorsque j'essaie de contrôler mes pleurs, je n'y parviens pas souvent.",
-      "Je suis facilement envahi par des éclats de rire."
+      "Parfois, je me sens bien pendant une minute, puis j'ai envie de pleurer pour une raison insignifiante ou sans aucune raison.",
+      "D’autres personnes m’ont dit que je pouvais m’amuser très facilement ou sembler être amusé(e) par des choses qui ne sont en réalité pas amusantes.",
+      "Je trouve que je pleure très facilement.",
+      "Je trouve que même lorsque je tente de contrôler mon rire, j'en suis souvent incapable.",
+      "Par moments, je ne pense à rien de joyeux ou de comique, mais je suis ensuite subitement submergé(e) par des pensées comiques ou joyeuses.",
+      "Je trouve que même lorsque je tente de contrôler mes pleurs, j'en suis souvent incapable.",
+      "Je me trouve facilement pris(e) de fous rires."
+    ];
+
+    const reponses = [
+      "Jamais",
+      "Rarement",
+      "Parfois",
+      "Fréquemment",
+      "La plupart du temps"
     ];
 
     const container = document.getElementById('questions');
     questions.forEach((question, index) => {
       const div = document.createElement('div');
       div.classList.add('question-block');
-      div.innerHTML = `
-        <h3>Question ${index + 1}</h3>
-        <p>${question}</p>` +
-        [1, 2, 3, 4, 5].map(val =>
-          `<label><input type="radio" name="q${index}" value="${val}"> ${val}</label>`).join("");
+      div.innerHTML = `<p><strong>${index + 1}. ${question}</strong></p>` +
+        reponses.map((rep, val) =>
+          `<label><input type="radio" name="q${index}" value="${val + 1}"> ${rep}</label>`
+        ).join("");
       container.appendChild(div);
     });
 
