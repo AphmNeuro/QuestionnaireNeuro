@@ -121,10 +121,13 @@
           <option value="F">Femme</option>
         </select>
 
+        <label for="niveau_sc">Niveau Socio-Culturel :</label>
+        <input type="text" id="niveau_sc" name="niveau_sc" placeholder="Ex : Études supérieures, Bac, etc.">
+
         <label for="annee_diag">Année du diagnostic :</label>
         <input type="number" id="annee_diag" name="annee_diag" required>
 
-        <label for="hemicorps">Premier côté atteint :</label>
+        <label for="hemicorps">Côté le plus atteint :</label>
         <select id="hemicorps" name="hemicorps">
           <option value="">-- Sélectionner --</option>
           <option value="D">Droit</option>
@@ -141,36 +144,50 @@
         <label for="score_hy">Score Hoehn & Yahr :</label>
         <input type="number" id="score_hy" name="score_hy" step="0.1">
 
-        <label for="date_traitement">Date début traitement dopaminergique :</label>
-        <input type="date" id="date_traitement" name="date_traitement">
+        <label for="plainte">Plainte :</label>
+        <select id="plainte_timing" name="plainte_timing">
+          <option value="">-- Avant ou après diagnostic ? --</option>
+          <option value="Avant">Avant diagnostic</option>
+          <option value="Après">Après diagnostic</option>
+        </select>
+        <input type="text" id="plainte_duree" name="plainte_duree" placeholder="Depuis quand ?">
 
-        <label>Traitements dopaminergiques en cours :</label>
+        <label>Traitements dopaminergiques en cours (plusieurs choix possibles) :</label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="traitements" value="Aucun"> Aucun</label>
-          <label><input type="checkbox" name="traitements" value="L-Dopa (Modopar)"> L-Dopa (ex : Modopar)</label>
-          <label><input type="checkbox" name="traitements" value="Agoniste (Sifrol)"> Agoniste (ex : Sifrol)</label>
-          <label><input type="checkbox" name="traitements" value="Association de plusieurs"> Association</label>
-          <label><input type="checkbox" name="traitements" value="Pompe Apomorphine"> Pompe Apomorphine</label>
-          <label><input type="checkbox" name="traitements" value="Pompe Entacapone"> Pompe Entacapone</label>
+          <label><input type="checkbox" name="traitements" value="L-Dopa"> L-Dopa</label>
+          <label><input type="checkbox" name="traitements" value="Agoniste"> Agoniste</label>
+          <label><input type="checkbox" name="traitements" value="IMAO"> IMAO</label>
+          <label><input type="checkbox" name="traitements" value="ICOMT"> ICOMT</label>
+          <label><input type="checkbox" name="traitements" value="Pompe APO"> Pompe APO</label>
+          <label><input type="checkbox" name="traitements" value="Pompe Duodopa"> Pompe Duodopa</label>
+          <label><input type="checkbox" name="traitements" value="Pompe Skyova"> Pompe Skyova</label>
           <label><input type="checkbox" name="traitements" value="Stimulation cérébrale profonde"> Stimulation cérébrale profonde</label>
         </div>
 
-        <label>Autres traitements :</label>
+        <label for="del">Traitement – Calcul DEL :</label>
+        <input type="text" id="del" name="del" placeholder="Indiquer la valeur du calcul DEL">
+
+        <label for="autres_traitements">Autres traitements :</label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="autres_traitements" value="Antidépresseur"> Antidépresseur</label>
           <label><input type="checkbox" name="autres_traitements" value="Anxiolytique"> Anxiolytique</label>
         </div>
 
-        <label for="dopa">DOPA (ON/OFF) :</label>
+        <label>Antécédents / Comorbidités psychiatriques personnelles :</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" name="dopa" value="ON"> ON</label>
-          <label><input type="checkbox" name="dopa" value="OFF"> OFF</label>
+          <label><input type="checkbox" name="psy_perso" value="Dépression"> Dépression</label>
+          <label><input type="checkbox" name="psy_perso" value="Anxiété"> Anxiété</label>
+          <label><input type="checkbox" name="psy_perso" value="Bipolarité"> Bipolarité</label>
+          <label><input type="checkbox" name="psy_perso" value="Autre"> Autre : <input type="text" name="psy_perso_autre"></label>
         </div>
 
-        <label for="stim">STIM (ON/OFF) :</label>
+        <label>Antécédents / Comorbidités psychiatriques familiales :</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" name="stim" value="ON"> ON</label>
-          <label><input type="checkbox" name="stim" value="OFF"> OFF</label>
+          <label><input type="checkbox" name="psy_fam" value="Dépression"> Dépression</label>
+          <label><input type="checkbox" name="psy_fam" value="Anxiété"> Anxiété</label>
+          <label><input type="checkbox" name="psy_fam" value="Bipolarité"> Bipolarité</label>
+          <label><input type="checkbox" name="psy_fam" value="Autre"> Autre : <input type="text" name="psy_fam_autre"></label>
         </div>
 
         <label for="moca_score">Moca Score :</label>
@@ -199,15 +216,20 @@
         Identifiant: identifiant,
         Age: form.age.value || "Non répondu",
         Sexe: form.sexe.value || "Non répondu",
+        Niveau_SC: form.niveau_sc.value || "Non répondu",
         Annee_diagnostic: form.annee_diag.value || "Non répondu",
-        Premier_cote: form.hemicorps.value || "Non répondu",
+        Cote_atteint: form.hemicorps.value || "Non répondu",
         Forme_tremblante: form.forme_tremblante.value || "Non répondu",
         Score_HY: form.score_hy.value || "Non répondu",
-        Date_traitement: form.date_traitement.value || "Non répondu",
+        Plainte_timing: form.plainte_timing.value || "Non répondu",
+        Plainte_duree: form.plainte_duree.value || "Non répondu",
         Traitements: getCheckboxValue("traitements"),
+        Traitement_DEL: form.del.value || "Non répondu",
         Autres_traitements: getCheckboxValue("autres_traitements"),
-        DOPA: getCheckboxValue("dopa"),
-        STIM: getCheckboxValue("stim"),
+        Psy_perso: getCheckboxValue("psy_perso"),
+        Psy_perso_autre: form.psy_perso_autre.value || "",
+        Psy_fam: getCheckboxValue("psy_fam"),
+        Psy_fam_autre: form.psy_fam_autre.value || "",
         Moca_Score: form.moca_score.value || "Non répondu"
       };
 
