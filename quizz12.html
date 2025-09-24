@@ -127,19 +127,19 @@
 
   <script>
     const questions = [
-      {text: "Je suis détendu(e), serein(e)", right: "Je suis très angoissé(e), inquiet(e)"},
-      {text: "J’ai envie de faire des choses", right: "J’ai envie de ne rien faire"},
-      {text: "Je n’ai pas mal", right: "J’ai très mal"},
-      {text: "Je ne suis pas fatigué(e)", right: "Je suis épuisé(e)"},
-      {text: "Je peux me concentrer facilement", right: "Je suis incapable de me concentrer"},
-      {text: "Je ne ressens aucune tristesse", right: "J’ai une grande tristesse, des idées sombres"},
-      {text: "Je n’ai pas de difficulté à bien respirer", right: "J’ai de grosses difficultés à respirer"},
-      {text: "Je ne ressens pas le besoin de bouger les jambes", right: "Je ressens le besoin de bouger les jambes"},
-      {text: "Je n’ai pas de problème urinaire", right: "J’ai des urgences/rétention urinaires"},
-      {text: "Je ne me sens pas irritable", right: "Je me sens très irritable"},
-      {text: "Je transpire normalement", right: "J’ai des sueurs abondantes"},
-      {text: "Dans cette liste, au moment présent, indiquez le signe le plus gênant pour vous.", type: "textarea"},
-      {text: "Est-ce que ce symptôme est plus gênant que votre gêne motrice (par exemple, tremblements ou raideur) ?", type: "radio",
+      {label: "Anxiété", left: "Je suis détendu(e), serein(e)", right: "Je suis très angoissé(e), inquiet(e)"},
+      {label: "Motivation", left: "J’ai envie de faire des choses", right: "J’ai envie de ne rien faire"},
+      {label: "Douleur", left: "Je n’ai pas mal", right: "J’ai très mal"},
+      {label: "Fatigue", left: "Je ne suis pas fatigué(e)", right: "Je suis épuisé(e)"},
+      {label: "Concentration", left: "Je peux me concentrer facilement", right: "Je suis incapable de me concentrer"},
+      {label: "Tristesse", left: "Je ne ressens aucune tristesse", right: "J’ai une grande tristesse, des idées sombres"},
+      {label: "Respiration", left: "Je n’ai pas de difficulté à bien respirer", right: "J’ai de grosses difficultés à respirer"},
+      {label: "Jambes sans repos", left: "Je ne ressens pas le besoin de bouger les jambes", right: "Je ressens le besoin de bouger les jambes"},
+      {label: "Problèmes urinaires", left: "Je n’ai pas de problème urinaire", right: "J’ai des urgences/rétention urinaires"},
+      {label: "Irritabilité", left: "Je ne me sens pas irritable", right: "Je me sens très irritable"},
+      {label: "Transpiration", left: "Je transpire normalement", right: "J’ai des sueurs abondantes"},
+      {label: "Dans cette liste, au moment présent, indiquez le signe le plus gênant pour vous.", type: "textarea"},
+      {label: "Est-ce que ce symptôme est plus gênant que votre gêne motrice (par exemple, tremblements ou raideur) ?", type: "radio",
        options: [
          {label: "Oui", value: "1"},
          {label: "Non", value: "2"},
@@ -154,9 +154,9 @@
 
       if (index < 11) {
         div.innerHTML = `
-          <p>${index + 1}. ${q.text}</p>
+          <p>${index + 1}. ${q.label}</p>
           <div class="slider-container">
-            <span>${q.text}</span>
+            <span>${q.left}</span>
             <input type="range" name="q${index}" min="0" max="10" value="5">
             <span>${q.right}</span>
           </div>
@@ -164,12 +164,12 @@
         `;
       } else if (q.type === "textarea") {
         div.innerHTML = `
-          <p>${index + 1}. ${q.text}</p>
+          <p>${index + 1}. ${q.label}</p>
           <textarea name="q${index}" rows="3" style="width:100%;"></textarea>
         `;
       } else if (q.type === "radio") {
         div.innerHTML = `
-          <p>${index + 1}. ${q.text}</p>
+          <p>${index + 1}. ${q.label}</p>
           ${q.options.map(opt => `
             <label><input type="radio" name="q${index}" value="${opt.value}"> ${opt.label}</label><br>
           `).join("")}
@@ -199,7 +199,7 @@
           const radios = document.getElementsByName(`q${i}`);
           radios.forEach(r => { if (r.checked) selected = r.value; });
         }
-        csvContent += `"${i + 1}";"${q.text}";"${selected}"\n`;
+        csvContent += `"${i + 1}";"${q.label}";"${selected}"\n`;
       });
 
       const BOM = "\uFEFF";
