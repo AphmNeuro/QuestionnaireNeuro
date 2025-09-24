@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Échelle FNM ON/OFF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: #54A9AE;
+      text-align: center;
+      color: #2c3e50;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .back-button a {
+      text-decoration: none;
+      font-weight: bold;
+      color: white;
+      background-color: #2c3e50;
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+    .back-button a:hover {
+      background-color: #1a242f;
+    }
+    .id-block, .question, .final {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 25px 30px;
+      margin: 30px auto;
+      max-width: 900px;
+      text-align: left;
+    }
+    .question:hover {
+      transform: scale(1.01);
+    }
+    .question p {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    input[type="text"], select {
+      width: 100%;
+      max-width: 400px;
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 30px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+<div class="back-button">
+  <a href="index.html">← Retour</a>
+</div>
+
+<h1>Échelle FNM ON/OFF</h1>
+
+<div class="id-block">
+  <label for="patientId">Identifiant Patient :</label><br>
+  <input type="text" id="patientId" placeholder="Ex : ABC123" required>
+</div>
+
+<form id="fnmForm">
+  <div id="questions-container"></div>
+
+  <div class="question">
+    <p>12. Parmi les signes listés ci-dessus, lequel est le plus gênant pour vous en ce moment ?</p>
+    <input type="text" id="symptome_genant" placeholder="Saisir ici...">
+  </div>
+
+  <div class="question">
+    <p>13. Ce symptôme est-il plus gênant que votre gêne motrice (ex. tremblements ou raideur) ?</p>
+    <label><input type="radio" name="comparaison" value="Oui"> Oui</label>
+    <label><input type="radio" name="comparaison" value="Non"> Non</label>
+    <label><input type="radio" name="comparaison" value="Je ne sais pas"> Je ne sais pas</label>
+  </div>
+
+  <div class="final" style="text-align:center;">
+    <button type="button" onclick="generateCSV()">Télécharger en CSV</button>
+  </div>
+</form>
+
+<script>
+  const items = [
+    "1. Je suis détendu(e), serein(e) / Je suis très angoissé(e), inquiet(e)",
+    "2. J’ai envie de faire des choses / J’ai envie de ne rien faire",
+    "3. Je n’ai pas mal / J'ai très mal",
+    "4. Je ne suis pas fatigué(e) / Je suis épuisé(e)",
+    "5. Je peux me concentrer facilement / Je suis incapable de me concentrer",
+    "6. Je ne ressens aucune tristesse / J’ai une grande tristesse, des idées sombres",
+    "7. Je n'ai pas de difficulté à respirer / J'ai de grosses difficultés à bien respirer",
+    "8. Je ne ressens pas le besoin de bouger les jambes / Je ressens le besoin de bouger les jambes",
+    "9. Je n’ai pas de problème urinaire / J’ai des urgences/rétention urinaires",
+    "10. Je ne me sens pas irritable / Je me sens très irritable",
+    "11. Je transpire normalement / J’ai des sueurs abondantes"
+  ];
+
+  const container = document.getElementById("questions-container");
+
+  items.forEach((text, index) => {
+    const div = document.createElement("div");
+    div.classList.add("question");
+    div.innerHTML = `<p>${text}</p><div class="options">` +
+      Array.from({length: 11}, (_, val) => `
+        <label><input type="radio" name="q${index}" value="${val}"> ●</label>
+      `).join("") + `</div>`;
+    container.appendChild(div);
+  });
+
+  function generateCSV() {
+    const patientId = document.getElementById("patientId").value.trim();
+    if (!patientId) {
+      alert("Veuillez renseigner l'identifiant patient.");
+      return;
+    }
+
+    let csv = `Identifiant;${patientId}\n\nNuméro;Question;Réponse\n`;
+    items.forEach((question, i) => {
+      const radios = document.getElementsByName(`q${i}`);
+      let selected = "Non répondu";
+      radios.forEach(r => { if (r.checked) selected = r.value; });
+      csv += `"${i + 1}";"${question}";"${selected}"\n`;
+    });
+
+    const symptome = document.getElementById("symptome_genant").value.trim() || "Non répondu";
+    const comp = document.querySelector('input[name="comparaison"]:checked');
+    const compVal = comp ? comp.value : "Non répondu";
+
+    csv += `"12";"Signe le plus gênant actuellement";"${symptome}"\n`;
+    csv += `"13";"Symptôme plus gênant que gêne motrice";"${compVal}"\n`;
+
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${patientId}_FNM_ON_OFF.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+</body>
+</html>
