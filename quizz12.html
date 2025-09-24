@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Échelle FNM V5 ON-OFF</title>
+  <title>Échelle Fluctuations Non Motrices ON/OFF</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,10 +29,19 @@
       padding: 8px;
       margin-top: 5px;
     }
-    .question-block {
+    .instruction {
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px 30px;
+      margin: 30px auto;
+      max-width: 900px;
+      text-align: left;
+    }
+    .question-block {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       padding: 25px 30px;
       margin: 30px auto;
       max-width: 900px;
@@ -96,11 +105,19 @@
     <a href="index.html">← Retour</a>
   </div>
 
-  <h1>Échelle FNM V5 ON-OFF</h1>
+  <h1>Échelle Fluctuations Non Motrices ON/OFF</h1>
 
   <div class="identifiant">
     <label for="identifiant">Identifiant Patient :</label>
     <input type="text" id="identifiant" placeholder="Ex : ABC456">
+  </div>
+
+  <div class="instruction">
+    <h2>Instructions</h2>
+    <p>Nous vous proposons d’utiliser en phase « OFF » et en phase « ON », une échelle numérique destinée à mesurer l’intensité des fluctuations non motrices dans la maladie de Parkinson.</p>
+    <p>Entourez le chiffre de 0 à 10 qui correspond le mieux, selon vous, à l’importance des fluctuations non motrices.</p>
+    <p>La note <strong>0</strong> correspond à « aucun signe de fluctuation », la note <strong>10</strong> correspond à l’intensité maximum du signe.</p>
+    <p>Basez-vous sur les signes que vous présentez au moment précis où vous remplissez le questionnaire.</p>
   </div>
 
   <form id="fnmForm">
@@ -110,40 +127,55 @@
 
   <script>
     const questions = [
-      {text: "Transpiration", left: "Je transpire normalement", right: "J’ai des sueurs abondantes"},
-      {text: "Salive", left: "Je salive normalement", right: "J’ai beaucoup de salive"},
-      {text: "Déglutition", left: "Je déglutis normalement", right: "J’ai beaucoup de difficultés à avaler"},
-      {text: "Élocution", left: "Je parle normalement", right: "On ne comprend pas du tout ce que je dis"},
-      {text: "Écriture", left: "J’écris normalement", right: "Je ne peux pas écrire"},
-      {text: "Marche", left: "Je marche normalement", right: "Je ne peux pas marcher"},
-      {text: "Levers de chaise", left: "Je me lève normalement", right: "Je ne peux pas me lever"},
-      {text: "Hygiène", left: "Je fais ma toilette normalement", right: "Je ne peux pas du tout faire ma toilette"},
-      {text: "Habillage", left: "Je m’habille normalement", right: "Je ne peux pas du tout m’habiller"},
-      {text: "Tremblement", left: "Je n’ai pas de tremblement", right: "J’ai un tremblement permanent"},
-      {text: "Rigidité", left: "Je ne suis pas raide", right: "Je suis complètement raide"},
-      {text: "Symptômes divers", left: "", right: ""}
+      {text: "Je suis détendu(e), serein(e)", right: "Je suis très angoissé(e), inquiet(e)"},
+      {text: "J’ai envie de faire des choses", right: "J’ai envie de ne rien faire"},
+      {text: "Je n’ai pas mal", right: "J’ai très mal"},
+      {text: "Je ne suis pas fatigué(e)", right: "Je suis épuisé(e)"},
+      {text: "Je peux me concentrer facilement", right: "Je suis incapable de me concentrer"},
+      {text: "Je ne ressens aucune tristesse", right: "J’ai une grande tristesse, des idées sombres"},
+      {text: "Je n’ai pas de difficulté à bien respirer", right: "J’ai de grosses difficultés à respirer"},
+      {text: "Je ne ressens pas le besoin de bouger les jambes", right: "Je ressens le besoin de bouger les jambes"},
+      {text: "Je n’ai pas de problème urinaire", right: "J’ai des urgences/rétention urinaires"},
+      {text: "Je ne me sens pas irritable", right: "Je me sens très irritable"},
+      {text: "Je transpire normalement", right: "J’ai des sueurs abondantes"},
+      {text: "Dans cette liste, au moment présent, indiquez le signe le plus gênant pour vous.", type: "textarea"},
+      {text: "Est-ce que ce symptôme est plus gênant que votre gêne motrice (par exemple, tremblements ou raideur) ?", type: "radio",
+       options: [
+         {label: "Oui", value: "1"},
+         {label: "Non", value: "2"},
+         {label: "Je ne sais pas", value: "3"}
+       ]}
     ];
 
     const container = document.getElementById("questions");
     questions.forEach((q, index) => {
       const div = document.createElement("div");
       div.classList.add("question-block");
+
       if (index < 11) {
         div.innerHTML = `
           <p>${index + 1}. ${q.text}</p>
           <div class="slider-container">
-            <span>${q.left}</span>
+            <span>${q.text}</span>
             <input type="range" name="q${index}" min="0" max="10" value="5">
             <span>${q.right}</span>
           </div>
           <div class="ticks">${Array.from({length: 11}, (_, i) => `<span>${i}</span>`).join("")}</div>
         `;
-      } else {
+      } else if (q.type === "textarea") {
         div.innerHTML = `
-          <p>12. Symptômes divers (respiration, tristesse, problèmes urinaires, etc.)</p>
-          <textarea name="q${index}" rows="4" style="width:100%;"></textarea>
+          <p>${index + 1}. ${q.text}</p>
+          <textarea name="q${index}" rows="3" style="width:100%;"></textarea>
+        `;
+      } else if (q.type === "radio") {
+        div.innerHTML = `
+          <p>${index + 1}. ${q.text}</p>
+          ${q.options.map(opt => `
+            <label><input type="radio" name="q${index}" value="${opt.value}"> ${opt.label}</label><br>
+          `).join("")}
         `;
       }
+
       container.appendChild(div);
     });
 
@@ -160,9 +192,12 @@
         if (i < 11) {
           const slider = document.querySelector(`input[name="q${i}"]`);
           selected = slider ? slider.value : "Non répondu";
-        } else {
+        } else if (q.type === "textarea") {
           const txt = document.querySelector(`textarea[name="q${i}"]`).value.trim();
           selected = txt || "Non répondu";
+        } else if (q.type === "radio") {
+          const radios = document.getElementsByName(`q${i}`);
+          radios.forEach(r => { if (r.checked) selected = r.value; });
         }
         csvContent += `"${i + 1}";"${q.text}";"${selected}"\n`;
       });
@@ -171,7 +206,7 @@
       const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `${id}_FNM_V5_ON_OFF_resultats.csv`;
+      link.download = `${id}_FNM_ON_OFF_resultats.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
