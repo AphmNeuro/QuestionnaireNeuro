@@ -166,6 +166,8 @@
       "Rechercher le sens caché des films ou des pièces de théâtre perturbe le plaisir qu’ils procurent."
     ];
 
+    const reversedItems = [4, 5, 10, 18, 19];
+
     const choices = [
       "Désaccord complet",
       "Désaccord relatif",
@@ -199,6 +201,12 @@
         const radios = document.getElementsByName(`q${idx}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
+
+        // inversion si question dans la liste
+        if (selected !== "Non répondu" && reversedItems.includes(idx + 1)) {
+          selected = 6 - selected; // inverse échelle 1–5
+        }
+
         csv += `"${idx + 1}";"${q}";"${selected}"\n`;
       });
 
