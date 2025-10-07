@@ -53,9 +53,7 @@
       transition: transform 0.2s ease;
     }
 
-    .form-section:hover {
-      transform: scale(1.01);
-    }
+    .form-section:hover { transform: scale(1.01); }
 
     .identifier-section {
       background-color: #e0e0e0;
@@ -92,9 +90,7 @@
       margin-top: 30px;
     }
 
-    button:hover {
-      background-color: #2980b9;
-    }
+    button:hover { background-color: #2980b9; }
   </style>
 </head>
 <body>
@@ -103,6 +99,7 @@
   </div>
 
   <h1>Formulaire Données Cliniques - Maladie de Parkinson</h1>
+
   <div class="form-wrapper">
     <form id="parkinsonForm">
       <div class="identifier-section">
@@ -144,7 +141,7 @@
         <label for="score_hy">Score Hoehn & Yahr :</label>
         <input type="number" id="score_hy" name="score_hy" step="0.1">
 
-        <label for="plainte">Plainte :</label>
+        <label for="plainte_timing">Plainte :</label>
         <select id="plainte_timing" name="plainte_timing">
           <option value="">-- Avant ou après diagnostic ? --</option>
           <option value="Avant">Avant diagnostic</option>
@@ -176,6 +173,7 @@
           <label><input type="checkbox" name="autres_traitements" value="IRSRna"> IRSRna</label>
           <label><input type="checkbox" name="autres_traitements" value="Antagoniste a2"> Antagoniste a2</label>
           <label><input type="checkbox" name="autres_traitements" value="Modulateur GABA/benzodiazepine"> Modulateur GABA/benzodiazepine</label>
+          <label><input type="checkbox" name="autres_traitements" value="Autre"> Autre : <input type="text" id="autres_traitements_autre" name="autres_traitements_autre"></label>
         </div>
 
         <label>Antécédents / Comorbidités psychiatriques personnelles :</label>
@@ -222,10 +220,9 @@
         Traitements: getCheckboxValue("traitements"),
         Traitement_DEL: form.del.value || "Non répondu",
         Autres_traitements: getCheckboxValue("autres_traitements"),
+        Autres_traitements_autre: form.autres_traitements_autre.value || "",
         Psy_perso: getCheckboxValue("psy_perso"),
         Psy_perso_autre: form.psy_perso_autre.value || "",
-        Psy_fam: getCheckboxValue("psy_fam"),
-        Psy_fam_autre: form.psy_fam_autre.value || "",
         Moca_Score: form.moca_score.value || "Non répondu"
       };
 
