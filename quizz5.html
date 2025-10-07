@@ -171,6 +171,9 @@
       "Ce qui se passe autour de moi me laisse indifférent(e)."
     ];
 
+    // Questions inversées (index commençant à 1)
+    const invertedItems = [2, 3, 4, 5, 7, 8, 9, 10, 13, 14, 16, 18, 20, 22];
+
     const container = document.getElementById("questions");
     items.forEach((text, index) => {
       const div = document.createElement("div");
@@ -196,6 +199,11 @@
         const radios = document.getElementsByName(`q${i}`);
         let selected = "Non répondu";
         radios.forEach(r => { if (r.checked) selected = r.value; });
+
+        // Inversion des scores pour certaines questions
+        if (selected !== "Non répondu" && invertedItems.includes(i + 1)) {
+          selected = 3 - selected;
+        }
 
         const questionEscaped = q.replace(/"/g, '""');
         csvContent += `"${i + 1}";"${questionEscaped}";"${selected}"\n`;
